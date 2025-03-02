@@ -120,7 +120,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     switch (get_highest_layer(state)) {
         case 0:
-            rgblight_sethsv(HSV_BLACK);
+            rgblight_sethsv(HSV_WHITE);
             break;
         case 1:
             rgblight_sethsv(HSV_RED);
