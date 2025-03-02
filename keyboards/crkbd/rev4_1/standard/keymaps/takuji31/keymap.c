@@ -120,31 +120,39 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     switch (get_highest_layer(state)) {
         case 0:
-            rgblight_sethsv(HSV_WHITE);
+        case 8:
+            rgblight_sethsv_noeeprom(HSV_WHITE);
             break;
         case 1:
-            rgblight_sethsv(HSV_RED);
+        case 9:
+            rgblight_sethsv_noeeprom(HSV_RED);
             break;
         case 2:
-            rgblight_sethsv(HSV_BLUE);
+        case 10:
+            rgblight_sethsv_noeeprom(HSV_BLUE);
             break;
         case 3:
-            rgblight_sethsv(HSV_GREEN);
+        case 11:
+            rgblight_sethsv_noeeprom(HSV_GREEN);
             break;
         case 4:
-            rgblight_sethsv(HSV_ORANGE);
+        case 12:
+            rgblight_sethsv_noeeprom(HSV_ORANGE);
             break;
         case 5:
-            rgblight_sethsv(HSV_CHARTREUSE);
+        case 13:
+            rgblight_sethsv_noeeprom(HSV_CHARTREUSE);
             break;
         case 6:
-            rgblight_sethsv(HSV_CYAN);
+        case 14:
+            rgblight_sethsv_noeeprom(HSV_CYAN);
             break;
         case 7:
-            rgblight_sethsv(HSV_PINK);
+        case 15:
+            rgblight_sethsv_noeeprom(HSV_PINK);
             break;
         default:
-            rgblight_sethsv(HSV_BLACK);
+            rgblight_sethsv_noeeprom(HSV_BLACK);
             break;
     }
     return state;
