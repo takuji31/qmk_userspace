@@ -1,0 +1,16 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+
+#pragma once
+
+#define VIAL_KEYBOARD_UID {0x4D, 0x5C, 0xCE, 0x1F, 0xB7, 0x02, 0xDC, 0x8F}
+#define VIAL_UNLOCK_COMBO_ROWS { 0, 7 }
+#define VIAL_UNLOCK_COMBO_COLS { 0, 0 }
+
+// Toggle
+#define ONESHOT_TAP_TOGGLE 2
+#define TAPPING_TOGGLE 2
+
+// Retro tapping
+#define DUMMY_MOD_NEUTRALIZER_KEYCODE KC_F18
+#define MODS_TO_NEUTRALIZE { MOD_BIT(KC_LEFT_ALT), MOD_BIT(KC_LEFT_GUI), MOD_BIT(KC_RIGHT_GUI), MOD_BIT(KC_LEFT_CTRL)|MOD_BIT(KC_LEFT_SHIFT) }
+#define VIAL_TAP_DANCE_ENTRIES 64

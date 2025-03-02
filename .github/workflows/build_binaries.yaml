@@ -3,18 +3,27 @@ name: Build QMK firmware
 on: [push, workflow_dispatch]
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  build:
-    name: 'QMK Userspace Build'
-    uses: qmk/.github/.github/workflows/qmk_userspace_build.yml@main
-    with:
-      qmk_repo: bastardkb/bastardkb-qmk
-      qmk_ref: bkb-master
-
-  publish:
-    name: 'QMK Userspace Publish'
-    uses: qmk/.github/.github/workflows/qmk_userspace_publish.yml@main
-    if: always() && !cancelled()
-    needs: build
+    build-bastardkb:
+        name: "QMK Userspace Build"
+        uses: qmk/.github/.github/workflows/qmk_userspace_build.yml@main
+        with:
+            qmk_repo: bastardkb/bastardkb-qmk
+            qmk_ref: bkb-master
+            preparation_command: cp qmk-bastardkb.json qmk.json
+    build-vial:
+        name: "QMK Userspace Build"
+        uses: qmk/.github/.github/workflows/qmk_userspace_build.yml@main
+        with:
+            qmk_repo: vial/vial-qmk
+            qmk_ref: vial
+            preparation_command: cp qmk-vial.json qmk.json
+    publish:
+        name: "QMK Userspace Publish"
+        uses: qmk/.github/.github/workflows/qmk_userspace_publish.yml@main
+        if: always() && !cancelled()
+        needs:
+            - build-bastardkb
+            - build-vial
