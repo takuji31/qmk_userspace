@@ -7,22 +7,24 @@ permissions:
 
 jobs:
     build-bastardkb:
-        name: "QMK Userspace Build"
-        uses: qmk/.github/.github/workflows/qmk_userspace_build.yml@main
+        name: "Build bastardkb firmware"
+        uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_build.yml@main
         with:
             qmk_repo: bastardkb/bastardkb-qmk
             qmk_ref: bkb-master
             preparation_command: cp qmk-bastardkb.json qmk.json
+            artifact_name: bastardkb
     build-vial:
-        name: "QMK Userspace Build"
-        uses: qmk/.github/.github/workflows/qmk_userspace_build.yml@main
+        name: "Build vial firmware"
+        uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_build.yml@main
         with:
             qmk_repo: takuji31/vial-qmk
             qmk_ref: vial
             preparation_command: cp qmk-vial.json qmk.json
+            artifact_name: vial
     publish:
         name: "QMK Userspace Publish"
-        uses: qmk/.github/.github/workflows/qmk_userspace_publish.yml@main
+        uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_publish.yml@main
         if: always() && !cancelled()
         needs:
             - build-bastardkb
