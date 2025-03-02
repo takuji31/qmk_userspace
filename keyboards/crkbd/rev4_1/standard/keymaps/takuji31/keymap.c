@@ -114,6 +114,10 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
+void keyboard_post_init_user(void) {
+    rgblight_sethsv_noeeprom(HSV_WHITE);
+}
+
 layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, 2, 3, 4);
     state = update_tri_layer_state(state, 5, 6, 7);
