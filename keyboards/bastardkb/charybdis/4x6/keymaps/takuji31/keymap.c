@@ -140,8 +140,8 @@ void matrix_scan_user(void) {
 // #endif     // POINTING_DEVICE_ENABLE
 
 void keyboard_post_init_user(void) {
-    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-    rgb_matrix_sethsv_noeeprom(HSV_WHITE);
+    // rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    // rgb_matrix_sethsv_noeeprom(HSV_WHITE);
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
@@ -152,43 +152,43 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     // state = update_tri_layer_state(state, 2, 3, 4);
     // state = update_tri_layer_state(state, 5, 6, 7);
 
-    switch (get_highest_layer(state)) {
-        case 0:
-        case 8:
-            rgb_matrix_sethsv_noeeprom(HSV_WHITE);
-            break;
-        case 1:
-        case 9:
-            rgb_matrix_sethsv_noeeprom(HSV_RED);
-            break;
-        case 2:
-        case 10:
-            rgb_matrix_sethsv_noeeprom(HSV_BLUE);
-            break;
-        case 3:
-        case 11:
-            rgb_matrix_sethsv_noeeprom(HSV_GREEN);
-            break;
-        case 4:
-        case 12:
-            rgb_matrix_sethsv_noeeprom(HSV_ORANGE);
-            break;
-        case 5:
-        case 13:
-            rgb_matrix_sethsv_noeeprom(HSV_CHARTREUSE);
-            break;
-        case 6:
-        case 14:
-            rgb_matrix_sethsv_noeeprom(HSV_CYAN);
-            break;
-        case 7:
-        case 15:
-            rgb_matrix_sethsv_noeeprom(HSV_PINK);
-            break;
-        default:
-            rgb_matrix_sethsv_noeeprom(HSV_BLACK);
-            break;
-    }
+    // switch (get_highest_layer(state)) {
+    //     case 0:
+    //     case 8:
+    //         rgb_matrix_sethsv_noeeprom(HSV_WHITE);
+    //         break;
+    //     case 1:
+    //     case 9:
+    //         rgb_matrix_sethsv_noeeprom(HSV_RED);
+    //         break;
+    //     case 2:
+    //     case 10:
+    //         rgb_matrix_sethsv_noeeprom(HSV_BLUE);
+    //         break;
+    //     case 3:
+    //     case 11:
+    //         rgb_matrix_sethsv_noeeprom(HSV_GREEN);
+    //         break;
+    //     case 4:
+    //     case 12:
+    //         rgb_matrix_sethsv_noeeprom(HSV_ORANGE);
+    //         break;
+    //     case 5:
+    //     case 13:
+    //         rgb_matrix_sethsv_noeeprom(HSV_CHARTREUSE);
+    //         break;
+    //     case 6:
+    //     case 14:
+    //         rgb_matrix_sethsv_noeeprom(HSV_CYAN);
+    //         break;
+    //     case 7:
+    //     case 15:
+    //         rgb_matrix_sethsv_noeeprom(HSV_PINK);
+    //         break;
+    //     default:
+    //         rgb_matrix_sethsv_noeeprom(HSV_BLACK);
+    //         break;
+    // }
     return state;
 };
 
