@@ -16,10 +16,6 @@
  */
 #include QMK_KEYBOARD_H
 
-#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-#    include "timer.h"
-#endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
 enum charybdis_keymap_layers {
     LAYER_BASE = 0,
     LAYER_LOWER = 4,
@@ -29,18 +25,6 @@ enum charybdis_keymap_layers {
 
 /** \brief Automatically enable sniping-mode on the pointer layer. */
 //#define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
-
-#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-static uint16_t auto_pointer_layer_timer = 0;
-
-#    ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-#        define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 1000
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-
-#    ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#        define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD 8
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#endif     // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
 #define LOWER MO(LAYER_LOWER)
 #define RAISE MO(LAYER_RAISE)
@@ -119,32 +103,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 #ifdef POINTING_DEVICE_ENABLE
-#    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    if (abs(mouse_report.x) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD || abs(mouse_report.y) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD) {
-        if (auto_pointer_layer_timer == 0) {
-            layer_on(LAYER_POINTER);
-#        ifdef RGB_MATRIX_ENABLE
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
-            rgb_matrix_sethsv_noeeprom(HSV_GREEN);
-#        endif // RGB_MATRIX_ENABLE
-        }
-        auto_pointer_layer_timer = timer_read();
-    }
-    return mouse_report;
-}
-
-void matrix_scan_user(void) {
-    if (auto_pointer_layer_timer != 0 && TIMER_DIFF_16(timer_read(), auto_pointer_layer_timer) >= CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS) {
-        auto_pointer_layer_timer = 0;
-        layer_off(LAYER_POINTER);
-#        ifdef RGB_MATRIX_ENABLE
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_DEFAULT_MODE);
-#        endif // RGB_MATRIX_ENABLE
-    }
-}
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
 #    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
 layer_state_t layer_state_set_user(layer_state_t state) {
     charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
@@ -157,3 +115,69 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 // Forward-declare this helper function since it is defined in rgb_matrix.c.
 void rgb_matrix_update_pwm_buffers(void);
 #endif
+
+#ifdef POINTING_DEVICE_ENABLE
+void pointing_device_init_user(void) {
+    #ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+    set_auto_mouse_layer(LAYER_POINTER);
+    set_auto_mouse_enable(true);
+    #endif
+}
+#endif
+
+void keyboard_post_init_user(void) {
+    rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
+    rgb_matrix_sethsv(HSV_WHITE);
+    #ifdef CONSOLE_ENABLE
+    debug_enable=true;
+    debug_matrix=true;
+    #endif
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    #ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
+    charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
+    #endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
+
+    state = update_tri_layer_state(state, 4, 5, 6);
+    state = update_tri_layer_state(state, 7, 8, 9);
+
+    switch (get_highest_layer(state)) {
+        case 0:
+        case 8:
+            rgb_matrix_sethsv(HSV_WHITE);
+            break;
+        case 1:
+        case 9:
+            rgb_matrix_sethsv(HSV_RED);
+            break;
+        case 2:
+        case 10:
+            rgb_matrix_sethsv(HSV_BLUE);
+            break;
+        case 3:
+        case 11:
+            rgb_matrix_sethsv(HSV_GREEN);
+            break;
+        case 4:
+        case 12:
+            rgb_matrix_sethsv(HSV_ORANGE);
+            break;
+        case 5:
+        case 13:
+            rgb_matrix_sethsv(HSV_CHARTREUSE);
+            break;
+        case 6:
+        case 14:
+            rgb_matrix_sethsv(HSV_CYAN);
+            break;
+        case 7:
+        case 15:
+            rgb_matrix_sethsv(HSV_PINK);
+            break;
+        default:
+            rgb_matrix_sethsv(HSV_BLACK);
+            break;
+    }
+    return state;
+};
