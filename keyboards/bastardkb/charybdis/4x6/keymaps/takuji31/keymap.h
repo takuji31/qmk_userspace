@@ -2,6 +2,7 @@ enum charybdis_keymap_layers {
     LAYER_BASE = 0,
     LAYER_LOWER = 4,
     LAYER_RAISE = 5,
+    LAYER_ADJUST = 6,
     LAYER_POINTER = 15,
 };
 

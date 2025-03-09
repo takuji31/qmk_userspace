@@ -45,7 +45,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
     #endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
 
-    state = update_tri_layer_state(state, 4, 5, 6);
+    state = update_tri_layer_state(state, LAYER_LOWER, LAYER_RAISE, LAYER_ADJUST);
     state = update_tri_layer_state(state, 7, 8, 9);
 
     switch (get_highest_layer(state)) {
