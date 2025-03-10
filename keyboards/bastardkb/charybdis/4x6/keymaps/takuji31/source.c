@@ -33,7 +33,7 @@ void pointing_device_init_user(void) {
 
 void keyboard_post_init_user(void) {
     rgb_matrix_mode(RGB_MATRIX_SOLID_COLOR);
-    rgb_matrix_sethsv(HSV_WHITE);
+    rgb_matrix_sethsv(HSV_BLACK);
     #ifdef CONSOLE_ENABLE
     debug_enable=true;
     debug_matrix=true;
@@ -49,37 +49,32 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     state = update_tri_layer_state(state, 7, 8, 9);
 
     switch (get_highest_layer(state)) {
-        case 0:
-        case 8:
-            rgb_matrix_sethsv(HSV_WHITE);
+        case LAYER_BASE:
+            rgb_matrix_sethsv(HSV_BLACK);
             break;
-        case 1:
-        case 9:
+        case LAYER_LOWER:
             rgb_matrix_sethsv(HSV_RED);
             break;
-        case 2:
-        case 10:
+        case LAYER_RAISE:
             rgb_matrix_sethsv(HSV_BLUE);
             break;
-        case 3:
-        case 11:
+        case LAYER_ADJUST:
             rgb_matrix_sethsv(HSV_GREEN);
             break;
-        case 4:
+        case 1:
+        case 2:
+        case 3:
+        case 7:
+        case 9:
+        case 10:
+        case 11:
         case 12:
-            rgb_matrix_sethsv(HSV_ORANGE);
-            break;
-        case 5:
         case 13:
-            rgb_matrix_sethsv(HSV_CHARTREUSE);
-            break;
-        case 6:
         case 14:
             rgb_matrix_sethsv(HSV_CYAN);
             break;
-        case 7:
-        case 15:
-            rgb_matrix_sethsv(HSV_PINK);
+        case LAYER_POINTER:
+            rgb_matrix_sethsv(HSV_ORANGE);
             break;
         default:
             rgb_matrix_sethsv(HSV_BLACK);
