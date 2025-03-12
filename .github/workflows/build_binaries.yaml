@@ -6,13 +6,20 @@ permissions:
     contents: write
 
 jobs:
+    build:
+        name: "Build QMK firmware"
+        uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_build.yml@main
+        with:
+            qmk_repo: takuji31/qmk_firmware
+            qmk_ref: master
+            artifact_name: qmk
     build-bastardkb:
         name: "Build bastardkb firmware"
         uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_build.yml@main
         with:
             qmk_repo: bastardkb/bastardkb-qmk
             qmk_ref: bkb-master
-            preparation_command: cp qmk-bastardkb.json qmk.json
+            preparation_command: rm qmk.json && cp qmk-bastardkb.json qmk.json
             artifact_name: bastardkb
     build-vial:
         name: "Build vial firmware"
@@ -20,12 +27,13 @@ jobs:
         with:
             qmk_repo: takuji31/vial-qmk
             qmk_ref: vial
-            preparation_command: cp qmk-vial.json qmk.json
+            preparation_command: rm qmk.json && cp qmk-vial.json qmk.json
             artifact_name: vial
     publish:
         name: "QMK Userspace Publish"
         uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_publish.yml@main
         if: always() && !cancelled()
         needs:
+            - build
             - build-bastardkb
             - build-vial

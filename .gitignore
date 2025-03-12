@@ -9,5 +9,3 @@
 *.hex
 *.bin
 *.uf2
-
-qmk.json
