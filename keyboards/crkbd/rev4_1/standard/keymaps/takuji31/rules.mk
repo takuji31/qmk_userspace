@@ -3,3 +3,4 @@ VIAL_ENABLE        = yes
 VIALRGB_ENABLE     = yes
 ENCODER_MAP_ENABLE = yes
 OLED_ENABLE = no
+TAP_DANCE_ENABLE = yes
