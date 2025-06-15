@@ -2,6 +2,7 @@
     "userspace_version": "1.0",
     "build_targets": [
         ["aki27/cocot46plus", "vial"],
-        ["crkbd/rev4_1/standard", "takuji31"]
+        ["crkbd/rev4_1/standard", "takuji31"],
+        ["geek_rabb1t/futaba", "takuji31"]
     ]
 }
