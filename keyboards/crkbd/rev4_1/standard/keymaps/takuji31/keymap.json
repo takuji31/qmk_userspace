@@ -47,12 +47,12 @@
       "KC_DOT",
       "KC_SLSH",
       "KC_SCLN",
-      "KC_LALT",
+      "ANY(TD(0))",
       "KC_LGUI",
       "LT(1,KC_SPC)",
       "LT(2,KC_ENT)",
       "KC_BSPC",
-      "KC_RGUI"
+      "RSFT_T(KC_RGUI)"
     ],
     [
       "KC_GRV",
@@ -99,7 +99,7 @@
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
-      "KC_TRNS",
+      "KC_DEL",
       "KC_TRNS"
     ],
     [
