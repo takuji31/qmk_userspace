@@ -3,7 +3,6 @@
 
 #include QMK_KEYBOARD_H
 #include <print.h>
-#include "gr_trackpad65_driver.h"
 
 enum layer_number {
     _BASE = 0,
