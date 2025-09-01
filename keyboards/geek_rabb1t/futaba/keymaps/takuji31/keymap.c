@@ -7,10 +7,10 @@
 
 enum layer_number {
     _BASE = 0,
-    _WBASE,
     _LOWER,
     _RAISE,
     _ADJUST,
+    _WBASE,
     _WLOWER,
     _WRAISE,
     _WADJUST,
@@ -21,10 +21,10 @@ enum layer_number {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT(
-        KC_ESC , KC_Q,    KC_W,    KC_F,            KC_P,           KC_G, LSG(KC_5),  KC_F5,  KC_F2, KC_J,    KC_L,           KC_U,             KC_Y,    KC_QUOT,  KC_EQL,
+        KC_ESC , KC_Q,    KC_W,    KC_F,            KC_P,           KC_G,S(C(KC_TAB)),LSG(KC_5),C(KC_TAB), KC_J,    KC_L,           KC_U,             KC_Y,    KC_QUOT,  KC_EQL,
         KC_TAB , KC_A,    KC_R,    KC_S,            KC_T,           KC_D,                            KC_H,    KC_N,           KC_E,             KC_I,    KC_O,    KC_MINS,
         KC_LSFT, KC_Z,    KC_X,    KC_C,            KC_V,           KC_B,                            KC_K,    KC_M,           KC_COMM,          KC_DOT,  KC_SLSH, KC_SCLN,
-                 XXXXXXX, TD(0), LALT_T(KC_DEL), LGUI_T(KC_SPC), LT(_LOWER, KC_SPC),         LOW_SPEED,      LT(_RAISE, KC_RGUI),  KC_ENT,  KC_BSPC,   KC_LBRC, KC_RBRC,
+                 XXXXXXX, KC_LCTL, TD(0), LGUI_T(KC_SPC), LT(_LOWER, KC_LNG2),         LOW_SPEED,      LT(_RAISE, KC_LNG1),  KC_ENT,  KC_BSPC,   KC_LBRC, KC_RBRC,
 
         MS_BTN1, KC_NO, KC_NO, KC_NO, KC_NO,
         MS_BTN2, KC_NO, KC_NO, KC_NO, KC_NO,
@@ -35,10 +35,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         GRTL_1T, GRTL_2T, GRTL_3T, GRTL_4T
     ),
     [_WBASE] = LAYOUT(
-        KC_ESC , KC_Q,    KC_W,    KC_F,            KC_P,           KC_G, KC_PSCR,  KC_F5,   KC_F2,  KC_J,    KC_L,           KC_U,             KC_Y,    KC_QUOT,  KC_EQL,
+        KC_ESC , KC_Q,    KC_W,    KC_F,            KC_P,           KC_G,S(C(KC_TAB)),KC_PSCR,C(KC_TAB),KC_J,    KC_L,           KC_U,             KC_Y,    KC_QUOT,  KC_EQL,
         KC_TAB , KC_A,    KC_R,    KC_S,            KC_T,           KC_D,                            KC_H,    KC_N,           KC_E,             KC_I,    KC_O,    KC_MINS,
         KC_LSFT, KC_Z,    KC_X,    KC_C,            KC_V,           KC_B,                            KC_K,    KC_M,           KC_COMM,          KC_DOT,  KC_SLSH, KC_SCLN,
-                 XXXXXXX, KC_LGUI, LALT_T(KC_DEL), LCTL_T(KC_SPC), LT(_WLOWER, KC_SPC),         LOW_SPEED,      TD(1),  KC_ENT,  KC_BSPC,   KC_LBRC, KC_RBRC,
+                 XXXXXXX, KC_LGUI, TD(1), LCTL_T(KC_SPC), LT(_WLOWER, KC_LNG2),       TG(_WLOWER),   LT(_WRAISE, KC_LNG1),  KC_ENT,  KC_BSPC,   KC_LBRC, KC_RBRC,
 
         MS_BTN1, KC_NO, KC_NO, KC_NO, KC_NO,
         MS_BTN2, KC_NO, KC_NO, KC_NO, KC_NO,
@@ -162,10 +162,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //            , _______, _______, _______, _______, _______, _______, _______, _______
     // ),
     [_DEVICE] = LAYOUT(
-        _______, _______, _______, _______  , _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  QK_BOOT ,
-        _______, _______, _______, _______  , _______, _______,                                _______, _______, _______, _______, _______, _______ ,
-        _______, _______, _______, _______  , _______, _______,                                _______, _______, _______, _______, _______, _______ ,
-                 _______, _______, _______  , _______, _______,            DF(0)  ,            _______, _______, _______, _______, _______,
+        _______, _______, _______, _______  , _______, _______, _______, _______, _______,  _______, _______, _______, _______, _______, QK_BOOT ,
+        _______, _______, _______, _______  , _______, _______,                             _______, _______, _______, _______, _______, _______ ,
+        _______, _______, _______, _______  , _______, _______,                             _______, _______, _______, _______, _______, _______ ,
+                 _______, _______, _______  , _______, _______,          _______,           _______, _______, _______, _______, _______,
 
         _______, _______, _______, _______, _______,
         _______, _______, _______, _______, _______,
@@ -198,8 +198,8 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 
 void install_tap_dance_entries(void) {
     vial_tap_dance_entry_t my_tap_dance_entries[] = {
-        [0] = { G(KC_SPC), KC_LCTL, A(KC_SPC), XXXXXXX, TAPPING_TERM },
-        [1] = { A(KC_GRV), MO(_WRAISE), XXXXXXX, XXXXXXX, TAPPING_TERM },
+        [0] = { G(KC_SPC), KC_LALT, A(KC_SPC), XXXXXXX, TAPPING_TERM },
+        [1] = { A(KC_SPC), KC_LALT,   XXXXXXX, XXXXXXX, TAPPING_TERM },
     };
     uint8_t length = sizeof(my_tap_dance_entries) / sizeof(my_tap_dance_entries[0]);
     for (uint8_t i = 0; i < length; i++) {
@@ -213,9 +213,7 @@ void keyboard_post_init_user(void) {
     //debug_matrix = true;
     //debug_keyboard = true;
     //debug_mouse = true;
-    #ifdef TAP_DANCE_ENABLE
     install_tap_dance_entries();
-    #endif
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
