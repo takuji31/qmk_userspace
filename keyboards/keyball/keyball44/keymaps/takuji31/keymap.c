@@ -28,27 +28,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC   , KC_Q     , KC_W     , KC_P     , KC_F     , KC_G     ,                                        KC_J     , KC_L     , KC_U     , KC_Y     , KC_QUOT  , KC_EQL   ,
     KC_TAB   , KC_A     , KC_R     , KC_S     , KC_T     , KC_D     ,                                        KC_H     , KC_N     , KC_E     , KC_I     , KC_O     , KC_MINS  ,
     KC_LSFT  , KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                                        KC_K     , KC_M     , KC_COMM  , KC_DOT   , KC_SLSH  , KC_SCLN  ,
-                          KC_LALT  , KC_LGUI  , TM_LCTL  , LOWER    , MO_SYM  ,                    KC_BSPC , RAISE    ,                                  MO_DEV
+                          KC_LCTL  , KC_LALT  , TM_LNG2  , TM_SPC   , TM_LNG1 ,                    KC_BSPC , RAISE    ,                                  MO_DEV
   ),
 
   [LAYER_LOWER] = LAYOUT_right_ball(
-     _______ , KC_F1    , KC_F2    , KC_F3   , KC_F4    , KC_F5    ,                                         KC_F6    , KC_F7    , KC_F8    , KC_F9    , KC_F10  , KC_F11   ,
-     _______ , KC_LGUI  , KC_LALT  , KC_LCTL , KC_LSFT  , KC_WFWD  ,                                         KC_PGUP  , KC_LEFT  , KC_UP    , KC_RGHT  , _______ , KC_F12   ,
-     _______ , C(KC_Z)  , C(KC_X)  , C(KC_C) , C(KC_V)  , KC_WBAK  ,                                         KC_PGDN  , KC_HOME  , KC_DOWN  , KC_END   , _______ , _______  ,
+     KC_GRV  , KC_1     , KC_2     , KC_3    , KC_4     , KC_5     ,                                         KC_6     , KC_7     , KC_8     , KC_9     , KC_0    , KC_BSLS  ,
+     XXXXXXX , KC_LGUI  , KC_LALT  , KC_LCTL , KC_LSFT  , KC_WFWD  ,                                         KC_LEFT  , KC_DOWN  , KC_UP    , KC_RGHT  , XXXXXXX , KC_F12   ,
+     XXXXXXX , XXXXXXX  , XXXXXXX  , XXXXXXX , XXXXXXX  , KC_WBAK  ,                                         KC_HOME  , KC_PGDN  , KC_PGUP  , KC_END   , XXXXXXX , XXXXXXX  ,
                           _______  , _______ , _______  , _______  , _______  ,                     KC_DEL , _______  ,                                  _______
   ),
 
   [LAYER_RAISE] = LAYOUT_right_ball(
-    _______  , _______  , KC_7     , KC_8    , KC_9     , _______  ,                                         _______  , _______  , _______  , _______  , _______  , _______  ,
-    _______  , _______  , KC_4     , KC_5    , KC_6     , _______  ,                                         _______  , _______  , _______  , _______  , _______  , _______  ,
-    _______  , _______  , KC_1     , KC_2    , KC_3     , _______  ,                                         _______  , _______  , _______  , _______  , _______  , _______  ,
-                          KC_0     , KC_DOT  , _______  , _______  , _______  ,                     KC_DEL , _______  ,                                  _______
+    KC_TILD  , XXXXXXX  , XXXXXXX  , XXXXXXX , XXXXXXX  , XXXXXXX  ,                                         XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , KC_PIPE  ,
+    XXXXXXX  , KC_F1    , KC_F2    , KC_F3   , KC_F4    , KC_F5    ,                                         KC_RSFT  , KC_LGUI  , KC_LALT  , KC_RCTL  , XXXXXXX  , XXXXXXX  ,
+    XXXXXXX  , KC_F6    , KC_F7    , KC_F8   , KC_F9    , KC_F10   ,                                         XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,
+                          KC_F11   , KC_F12  , _______  , _______  , _______  ,                     KC_DEL , _______  ,                                  _______
   ),
 
   [LAYER_ADJUST] = LAYOUT_right_ball(
-    _______  , KC_BRID  , KC_BRIU  , _______ , _______  , _______  ,                                         KC_MPRV  , KC_MPLY  , KC_MNXT  , KC_MUTE  , KC_VOLD  , KC_VOLU  ,
-    _______  , _______  , _______  , _______ , _______  , _______  ,                                         _______  , _______  , _______  , _______  , _______  , _______  ,
-    _______  , _______  , _______  , _______ , _______  , _______  ,                                         _______  , _______  , _______  , _______  , _______  , _______  ,
+    XXXXXXX  , KC_BRID  , KC_BRIU  , XXXXXXX , XXXXXXX  , XXXXXXX  ,                                         KC_MPRV  , KC_MPLY  , KC_MNXT  , KC_MUTE  , KC_VOLD  , KC_VOLU  ,
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX , XXXXXXX  , XXXXXXX  ,                                         XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,
+    XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX , XXXXXXX  , XXXXXXX  ,                                         XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  , XXXXXXX  ,
                           _______  , _______ , _______  , _______  , _______  ,                   _______  , _______  ,                                  _______
   ),
 
@@ -60,16 +60,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [LAYER_MOUSE] = LAYOUT_right_ball(
-    SSNP_FRE ,  KC_F1   , KC_F2    , KC_F3   , KC_F4    , KC_F5    ,                                         KC_F6    , KC_F7    , KC_F8    , KC_F9    , KC_F10   , KC_F11   ,
-    SSNP_VRT ,  _______ , _______  , KC_UP   , KC_ENT   , KC_DEL   ,                                         KC_PGUP  , KC_BTN1  , KC_UP    , KC_BTN2  , KC_BTN3  , KC_F12   ,
-    SSNP_HOR ,  _______ , KC_LEFT  , KC_DOWN , KC_RGHT  , KC_BSPC  ,                                         KC_PGDN  , KC_LEFT  , KC_DOWN  , KC_RGHT  , _______  , _______  ,
+    _______  ,  _______ , _______  , _______ , _______  , _______  ,                                         _______  , _______  , _______  , _______  , _______  , _______  ,
+    _______  ,  _______ , _______  , _______ , _______  , _______  ,                                         _______  , KC_BTN1  , KC_BTN3  , KC_BTN2  , _______  , _______  ,
+    _______  ,  _______ , _______  , _______ , _______  , _______  ,                                         _______  , _______  , _______  , _______  , _______  , _______  ,
                           _______  , _______ , _______  , _______  , _______  ,                   _______  , _______  ,                                  _______
 ),
 
   [LAYER_DEVICE] = LAYOUT_right_ball(
-    _______  , AML_TO   , AML_I50  , AML_D50  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , KC_PSCR  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , SCRL_DVI ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
-    _______  , _______  , _______  , _______  , _______  , SCRL_DVD ,                                        CPI_D1K  , CPI_D100 , CPI_I100 , CPI_I1K  , _______  , KBC_SAVE ,
+    SSNP_FRE , AML_TO   , AML_I50  , AML_D50  , _______  , _______  ,                                        _______  , _______  , _______  , _______  , KC_PSCR  , _______  ,
+    SSNP_VRT , _______  , _______  , _______  , _______  , SCRL_DVI ,                                        _______  , _______  , _______  , _______  , _______  , _______  ,
+    SSNP_HOR , _______  , _______  , _______  , _______  , SCRL_DVD ,                                        CPI_D1K  , CPI_D100 , CPI_I100 , CPI_I1K  , _______  , KBC_SAVE ,
                           QK_BOOT  , KBC_RST  , _______  , _______  , _______  ,                   _______ , _______  ,                                  _______
   ),
 
