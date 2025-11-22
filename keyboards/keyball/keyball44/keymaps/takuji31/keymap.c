@@ -84,7 +84,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     keyball_set_scroll_mode(layer == LAYER_SYM);
     switch (layer) {
         case LAYER_BASE:
-            rgblight_sethsv(HSV_BLACK);
+            rgblight_sethsv(HSV_ORANGE);
             break;
         case LAYER_LOWER:
             rgblight_sethsv(HSV_BLUE);
