@@ -12,6 +12,8 @@ enum charybdis_keymap_layers {
 
 #define LOWER MO(LAYER_LOWER)
 #define RAISE MO(LAYER_RAISE)
+#define WLOWER MO(LAYER_LOWER)
+#define WRAISE MO(LAYER_RAISE)
 #define PT_Z LT(LAYER_POINTER, KC_Z)
 #define PT_SLSH LT(LAYER_POINTER, KC_SLSH)
 

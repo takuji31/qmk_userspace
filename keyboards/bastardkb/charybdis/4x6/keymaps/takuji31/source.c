@@ -82,3 +82,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     }
     return state;
 };
+
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    set_single_persistent_default_layer(detected_os == OS_WINDOWS ? 1 : 0);
+    return false;
+}
