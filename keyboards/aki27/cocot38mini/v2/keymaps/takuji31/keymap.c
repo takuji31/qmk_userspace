@@ -23,14 +23,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MS_BTN2 KC_MS_BTN2
 #define MS_BTN3 KC_MS_BTN3
 
+#define HRM_A LGUI_T(KC_A)
+#define HRM_R LALT_T(KC_R)
+#define HRM_S LCTL_T(KC_S)
+#define HRM_T LSFT_T(KC_T)
+#define HRM_N RSFT_T(KC_N)
+#define HRM_E RCTL_T(KC_E)
+#define HRM_I RALT_T(KC_I)
+#define HRM_O RGUI_T(KC_O)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [0] = LAYOUT(
-        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,             KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
-        KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_ESC,  KC_H,    KC_N,    KC_E,    KC_I,    KC_O,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
+        KC_Q,  KC_W,  KC_F,  KC_P,  KC_G,           KC_J,  KC_L,  KC_U,    KC_Y,   KC_MINS,
+        HRM_A, HRM_R, HRM_S, HRM_T, KC_D,  KC_ESC,  KC_H,  HRM_N, HRM_E,   HRM_I,  HRM_O,
+        KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,           KC_K,  KC_M,  KC_COMM, KC_DOT, KC_SLSH,
+                      KC_LALT, KC_LNG2, KC_SPC, MS_BTN1, KC_ENT, KC_LNG1, KC_BSPC
     ),
     [1] = LAYOUT(
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,          KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
@@ -113,7 +122,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    )
 };
 
-
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
+    'L', 'L', 'L', 'L', 'L',        'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L', '*',   'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L',        'R', 'R', 'R', 'R', 'R',
+                   '*', '*', '*', '*', '*', '*', '*'
+);
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
