@@ -1,7 +1,7 @@
 {
     "userspace_version": "1.0",
     "build_targets": [
-        ["aki27/cocot38mini", "takuji31"],
+        ["aki27/cocot38mini/v2", "takuji31"],
         ["aki27/cocot46plus", "vial"],
         ["geek_rabb1t/futaba", "takuji31"]
     ]

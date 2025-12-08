@@ -18,110 +18,201 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 #include "quantum.h"
+#include "os_detection.h"
 
+// Layer definitions
+enum layer_number {
+    _BASE = 0,
+    _WBASE,
+    _MOUSE,  // Auto mouse layer - directly above base
+    _NAV,
+    _WNAV,
+    _SYM,
+    _WSYM,
+    _FN,
+    _WFN,
+    _MEDIA,
+    // Vial reserved layers
+    _VIAL1,
+    _VIAL2,
+    _VIAL3,
+    _VIAL4,
+    _VIAL5,
+    _VIAL6,
+};
+
+// Mouse button shortcuts
 #define MS_BTN1 KC_MS_BTN1
 #define MS_BTN2 KC_MS_BTN2
 #define MS_BTN3 KC_MS_BTN3
 
-#define HRM_A LGUI_T(KC_A)
+// Home Row Mods - macOS (CAGS)
+#define HRM_A LCTL_T(KC_A)
 #define HRM_R LALT_T(KC_R)
-#define HRM_S LCTL_T(KC_S)
+#define HRM_S LGUI_T(KC_S)
 #define HRM_T LSFT_T(KC_T)
 #define HRM_N RSFT_T(KC_N)
-#define HRM_E RCTL_T(KC_E)
+#define HRM_E RGUI_T(KC_E)
 #define HRM_I RALT_T(KC_I)
-#define HRM_O RGUI_T(KC_O)
+#define HRM_O RCTL_T(KC_O)
 
+// Home Row Mods - Windows (GACS)
+#define WHRM_A LGUI_T(KC_A)
+#define WHRM_R LALT_T(KC_R)
+#define WHRM_S LCTL_T(KC_S)
+#define WHRM_T LSFT_T(KC_T)
+#define WHRM_N RSFT_T(KC_N)
+#define WHRM_E RCTL_T(KC_E)
+#define WHRM_I RALT_T(KC_I)
+#define WHRM_O RGUI_T(KC_O)
+
+// Thumb keys - macOS
+#define SYM_LNG2 LT(_SYM, KC_LNG2)
+#define NAV_SPC  LT(_NAV, KC_SPC)
+#define SFT_TAB  MT(MOD_LSFT, KC_TAB)
+#define FN_ENT   LT(_FN, KC_ENT)
+
+// Thumb keys - Windows
+#define WSYM_LNG2 LT(_WSYM, KC_LNG2)
+#define WNAV_SPC  LT(_WNAV, KC_SPC)
+#define WFN_ENT   LT(_WFN, KC_ENT)
+
+// Shortcuts for NAV layer - macOS
+#define M_UNDO  G(KC_Z)
+#define M_CUT   G(KC_X)
+#define M_COPY  G(KC_C)
+#define M_PASTE G(KC_V)
+#define M_PSTM  S(G(KC_V))  // Paste and match style
+
+// Shortcuts for NAV layer - Windows
+#define W_UNDO  C(KC_Z)
+#define W_CUT   C(KC_X)
+#define W_COPY  C(KC_C)
+#define W_PASTE C(KC_V)
+#define W_PSTM  C(KC_V)  // Windows doesn't have paste match style
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    [0] = LAYOUT(
-        KC_Q,  KC_W,  KC_F,  KC_P,  KC_G,           KC_J,  KC_L,  KC_U,    KC_Y,   KC_MINS,
-        HRM_A, HRM_R, HRM_S, HRM_T, KC_D,  KC_ESC,  KC_H,  HRM_N, HRM_E,   HRM_I,  HRM_O,
-        KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,           KC_K,  KC_M,  KC_COMM, KC_DOT, KC_SLSH,
-                      KC_LALT, KC_LNG2, KC_SPC, MS_BTN1, KC_ENT, KC_LNG1, KC_BSPC
+    // Layer 0: BASE (macOS) - Colemak with Home Row Mods
+    [_BASE] = LAYOUT(
+        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,              KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
+        HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_D,    KC_ESC,   KC_H,    HRM_N,   HRM_E,   HRM_I,   HRM_O,
+        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,              KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+                          SYM_LNG2, NAV_SPC, SFT_TAB, MS_BTN1, KC_BSPC, FN_ENT,  KC_LNG1
     ),
-    [1] = LAYOUT(
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,          KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_GRV,  KC_TILD, KC_NUBS, KC_PIPE, XXXXXXX,          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
+
+    // Layer 1: WBASE (Windows) - Colemak with Home Row Mods
+    [_WBASE] = LAYOUT(
+        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,              KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
+        WHRM_A,  WHRM_R,  WHRM_S,  WHRM_T,  KC_D,    KC_ESC,   KC_H,    WHRM_N,  WHRM_E,  WHRM_I,  WHRM_O,
+        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,              KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+                          WSYM_LNG2, WNAV_SPC, SFT_TAB, MS_BTN1, KC_BSPC, WFN_ENT, KC_LNG1
     ),
-    [2] = LAYOUT(
-        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_ESC,  KC_APP,  KC_UP,   KC_EQL,  KC_PLUS, KC_MINS,
-        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,           KC_LEFT, KC_DOWN, KC_RGHT, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
+
+    // Layer 2: MOUSE - Auto mouse layer
+    [_MOUSE] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1,  MS_BTN1, SCRL_MO, XXXXXXX
     ),
-    [3] = LAYOUT(
-        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_ESC,  KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                          KC_LALT, KC_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  KC_LNG1, KC_BSPC
+
+    // Layer 3: NAV (macOS) - Numbers + Navigation
+    [_NAV] = LAYOUT(
+        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+        KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX, _______,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
+        M_UNDO,  M_CUT,   M_COPY,  M_PASTE, M_PSTM,            KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
+                          _______, _______, _______, _______,  _______, _______, _______
     ),
-    [4] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, SCRL_MO, XXXXXXX
+
+    // Layer 4: WNAV (Windows) - Numbers + Navigation
+    [_WNAV] = LAYOUT(
+        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,              KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, _______,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
+        W_UNDO,  W_CUT,   W_COPY,  W_PASTE, W_PSTM,            KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
+                          _______, _______, _______, _______,  _______, _______, _______
     ),
-    [5] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [6] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [7] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [8] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [9] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [10] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [11] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [12] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [13] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [14] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [15] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    )
+
+    // Layer 4: SYM (macOS) - Symbols
+    [_SYM] = LAYOUT(
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,           KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
+        KC_GRV,  KC_TILD, KC_BSLS, KC_PIPE, XXXXXXX, _______,  KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, KC_PLUS,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           KC_UNDS, KC_EQL,  KC_LABK, KC_RABK, KC_QUES,
+                          _______, _______, _______, _______,  _______, _______, _______
+    ),
+
+    // Layer 5: WSYM (Windows) - Symbols (same as macOS)
+    [_WSYM] = LAYOUT(
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,           KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
+        KC_GRV,  KC_TILD, KC_BSLS, KC_PIPE, XXXXXXX, _______,  KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, KC_PLUS,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           KC_UNDS, KC_EQL,  KC_LABK, KC_RABK, KC_QUES,
+                          _______, _______, _______, _______,  _______, _______, _______
+    ),
+
+    // Layer 7: FN (macOS) - Function Keys
+    [_FN] = LAYOUT(
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,             KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
+        KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX, _______,  XXXXXXX, KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          _______, _______, _______, _______,  _______, _______, _______
+    ),
+
+    // Layer 8: WFN (Windows) - Function Keys
+    [_WFN] = LAYOUT(
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,             KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX, _______,  XXXXXXX, KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          _______, _______, _______, _______,  _______, _______, _______
+    ),
+
+    // Layer 9: MEDIA - Media controls and system (tri-layer: NAV + SYM)
+    [_MEDIA] = LAYOUT(
+        KC_BRID, KC_BRIU, XXXXXXX, XXXXXXX, XXXXXXX,           KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
+                          _______, _______, _______, _______,  _______, _______, _______
+    ),
+
+    // Vial reserved layers (10-15)
+    [_VIAL1] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    [_VIAL2] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    [_VIAL3] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    [_VIAL4] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    [_VIAL5] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    [_VIAL6] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX
+    ),
 };
 
+// Chordal hold layout for home row mods
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
     'L', 'L', 'L', 'L', 'L',        'R', 'R', 'R', 'R', 'R',
     'L', 'L', 'L', 'L', 'L', '*',   'R', 'R', 'R', 'R', 'R',
@@ -131,74 +222,107 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
-    [0] =   { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [1] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [2] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [3] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [4] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [5] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [6] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [7] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [8] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [9] =   { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [10] =  { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [11] =  { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [12] =  { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [13] =  { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [14] =  { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [15] =  { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_BASE]  = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_WBASE] = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_MOUSE] = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },  // Scroll wheel
+    [_NAV]   = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },  // Tab switching
+    [_WNAV]  = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },
+    [_SYM]   = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_WSYM]  = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_FN]    = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_WFN]   = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_MEDIA] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },  // Volume control
+    [_VIAL1] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_VIAL2] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_VIAL3] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_VIAL4] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_VIAL5] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_VIAL6] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
 };
 #endif
 
-
-
+// Keep mouse layer active for these keycodes
 bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
     switch(keycode) {
-      case KC_LCTL:
-        return true;
-      case KC_LSFT:
-        return true;
-      case SCRL_MO:
-        return true;
-      default:
-        return false;
+        case KC_LCTL:
+        case KC_LSFT:
+        case KC_LALT:
+        case KC_LGUI:
+        case SCRL_MO:
+            return true;
+        default:
+            return false;
     }
     return is_mouse_record_user(keycode, record);
 }
 
+// Tri-layer: NAV + SYM = MEDIA
+layer_state_t layer_state_set_user(layer_state_t state) {
+    // macOS: NAV + SYM -> MEDIA
+    state = update_tri_layer_state(state, _NAV, _SYM, _MEDIA);
+    // Windows: WNAV + WSYM -> MEDIA
+    state = update_tri_layer_state(state, _WNAV, _WSYM, _MEDIA);
+    return state;
+}
 
+// OS detection for automatic layer switching
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_MACOS:
+        case OS_IOS:
+            set_single_persistent_default_layer(_BASE);
+            break;
+        case OS_WINDOWS:
+        case OS_LINUX:
+        case OS_UNSURE:
+            set_single_persistent_default_layer(_WBASE);
+            break;
+    }
+    return true;
+}
 
 #ifdef RGB_MATRIX_ENABLE
 
-bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) { 
-    int is_layer = get_highest_layer(layer_state|default_layer_state);  
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    int is_layer = get_highest_layer(layer_state | default_layer_state);
     HSV hsv = {0, 255, rgblight_get_val()};
-    if (is_layer == 1) {
-      hsv.h = 11; //CORAL
-    } else if (is_layer == 2)  {
-      hsv.h = 85; //GREEN
-    } else if (is_layer == 3)  {
-      hsv.h = 43; //YELLOW
-    } else if (is_layer == 4)  {
-      hsv.h = 0; //RED
-    } else if (is_layer == 5)  {
-      hsv.h = 191; //PURPLE
-    } else if (is_layer == 6)  {
-      hsv.h = 64; //CHARTREUSE
-    } else if (is_layer == 7)  {
-      hsv.h = 224;
-    } else {
-      hsv.h = 128; //CYAN
+
+    switch (is_layer) {
+        case _BASE:
+        case _WBASE:
+            hsv.h = 128;  // CYAN - Base layer
+            break;
+        case _NAV:
+        case _WNAV:
+            hsv.h = 85;   // GREEN - Navigation
+            break;
+        case _SYM:
+        case _WSYM:
+            hsv.h = 43;   // YELLOW - Symbols
+            break;
+        case _FN:
+        case _WFN:
+            hsv.h = 169;  // BLUE - Function
+            break;
+        case _MEDIA:
+            hsv.h = 191;  // PURPLE - Media
+            break;
+        case _MOUSE:
+            hsv.h = 0;    // RED - Mouse
+            break;
+        default:
+            hsv.h = 128;  // CYAN - Default
+            break;
     }
+
     RGB rgb = hsv_to_rgb(hsv);
- 
+
     for (uint8_t i = led_min; i <= led_max; i++) {
         if (HAS_FLAGS(g_led_config.flags[i], 0x02)) {
-          rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+            rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
         }
     }
     return false;
-};
+}
 
 #endif
-
