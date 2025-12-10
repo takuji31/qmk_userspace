@@ -21,13 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "os_detection.h"
 #include "cocot38mini.h"
 
-// CPI options
-#define COCOT_CPI_OPTIONS { 200, 400, 800, 1600, 3200 }
+#define COCOT_CPI_OPTIONS { 400, 800, 1600 }
 static const uint16_t cpi_options[] = COCOT_CPI_OPTIONS;
 
-// Snipe mode
-#define SNIPE_CPI_IDX 0
-static uint8_t saved_cpi_idx = 3;
+static uint8_t saved_cpi_idx = 1;
+static bool snipe_mode_active = false;
 
 // Layer definitions
 enum layer_number {
@@ -35,19 +33,20 @@ enum layer_number {
     _WBASE,
     _MOUSE,
     _SNIPE,
+    // macOS layers
     _NAV,
-    _WNAV,
     _SYM,
-    _WSYM,
     _FN,
-    _WFN,
-    _MEDIA,
-    // Vial reserved layers
     _VIAL1,
     _VIAL2,
+    _MEDIA,
+    // Windows layers
+    _WNAV,
+    _WSYM,
+    _WFN,
     _VIAL3,
     _VIAL4,
-    _VIAL5,
+    _WMEDIA,
 };
 
 // Mouse button shortcuts
@@ -126,46 +125,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, MS_BTN1, SCRL_MO, XXXXXXX
     ),
+    // macOS layers
     [_NAV] = LAYOUT(
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
         KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
         M_UNDO,  M_CUT,   M_COPY,  M_PASTE, M_PSTM,                    KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
-    [_WNAV] = LAYOUT(
-        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
-        W_UNDO,  W_CUT,   W_COPY,  W_PASTE, W_PSTM,                    KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
-                          _______, _______, _______, _______, _______, _______, _______, _______
-    ),
     [_SYM] = LAYOUT(
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
-        KC_GRV,  KC_TILD, KC_BSLS, KC_PIPE, XXXXXXX,                   KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, KC_PLUS,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_UNDS, KC_EQL,  KC_LABK, KC_RABK, KC_QUES,
-                          _______, _______, _______, _______, _______, _______, _______, _______
-    ),
-    [_WSYM] = LAYOUT(
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
-        KC_GRV,  KC_TILD, KC_BSLS, KC_PIPE, XXXXXXX,                   KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, KC_PLUS,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_UNDS, KC_EQL,  KC_LABK, KC_RABK, KC_QUES,
-                          _______, _______, _______, _______, _______, _______, _______, _______
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_EXLM, KC_SCLN, KC_AT,   KC_HASH, KC_GRV,
+        KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_EQL,  KC_LPRN, KC_RPRN, KC_QUOT, KC_PERC,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_ASTR, KC_LBRC, KC_RBRC, KC_AMPR, KC_DLR,
+                          _______, _______, _______, KC_BSLS, _______, _______, _______, _______
     ),
     [_FN] = LAYOUT(
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
         KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   XXXXXXX, KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          _______, _______, _______, _______, _______, _______, _______, _______
-    ),
-    [_WFN] = LAYOUT(
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
-        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   XXXXXXX, KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          _______, _______, _______, _______, _______, _______, _______, _______
-    ),
-    [_MEDIA] = LAYOUT(
-        KC_BRID, KC_BRIU, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_VIAL1] = LAYOUT(
@@ -180,6 +156,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
+    [_MEDIA] = LAYOUT(
+        KC_BRID, KC_BRIU, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
+                          _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    // Windows layers
+    [_WNAV] = LAYOUT(
+        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
+        W_UNDO,  W_CUT,   W_COPY,  W_PASTE, W_PSTM,                    KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
+                          _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_WSYM] = LAYOUT(
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_EXLM, KC_SCLN, KC_AT,   KC_HASH, KC_GRV,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_EQL,  KC_LPRN, KC_RPRN, KC_QUOT, KC_PERC,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_ASTR, KC_LBRC, KC_RBRC, KC_AMPR, KC_DLR,
+                          _______, _______, _______, KC_BSLS, _______, _______, _______, _______
+    ),
+    [_WFN] = LAYOUT(
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   XXXXXXX, KC_F11,  KC_F12,  XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          _______, _______, _______, _______, _______, _______, _______, _______
+    ),
     [_VIAL3] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -192,11 +193,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                           XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
-    [_VIAL5] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+    [_WMEDIA] = LAYOUT(
+        KC_BRID, KC_BRIU, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
+                          _______, _______, _______, _______, _______, _______, _______, _______
     ),
 };
 
@@ -210,22 +211,24 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
-    [_BASE]  = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_WBASE] = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_MOUSE] = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
-    [_SNIPE] = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
-    [_NAV]   = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },
-    [_WNAV]  = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },
-    [_SYM]   = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_WSYM]  = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_FN]    = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_WFN]   = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
-    [_MEDIA] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },  // Volume control
-    [_VIAL1] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL2] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL3] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL4] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL5] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_BASE]   = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
+    [_WBASE]  = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
+    [_MOUSE]  = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
+    [_SNIPE]  = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
+    // macOS layers
+    [_NAV]    = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },
+    [_SYM]    = { ENCODER_CCW_CW(KC_WH_L, KC_WH_R) },
+    [_FN]     = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_VIAL1]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_VIAL2]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_MEDIA]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    // Windows layers
+    [_WNAV]   = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },
+    [_WSYM]   = { ENCODER_CCW_CW(KC_WH_L, KC_WH_R) },
+    [_WFN]    = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_VIAL3]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_VIAL4]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_WMEDIA] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
 };
 #endif
 
@@ -247,13 +250,13 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
 // Layer state management
 layer_state_t layer_state_set_user(layer_state_t state) {
     // Tri-layer
-    state = update_tri_layer_state(state, _NAV, _SYM, _MEDIA);
-    state = update_tri_layer_state(state, _WNAV, _WSYM, _MEDIA);
+    state = update_tri_layer_state(state, _NAV, _FN, _MEDIA);
+    state = update_tri_layer_state(state, _WNAV, _WFN, _WMEDIA);
 
     uint8_t layer = get_highest_layer(state);
 
-    // Restore CPI when leaving SNIPE
-    if (layer != _SNIPE && cocot_config.cpi_idx == SNIPE_CPI_IDX) {
+    if (layer != _SNIPE && snipe_mode_active) {
+        snipe_mode_active = false;
         cocot_config.cpi_idx = saved_cpi_idx;
         pointing_device_set_cpi(cpi_options[saved_cpi_idx]);
     }
@@ -270,10 +273,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _SNIPE:
             cocot_set_scroll_mode(false);
             set_auto_mouse_enable(false);
-            if (cocot_config.cpi_idx != SNIPE_CPI_IDX) {
+            if (!snipe_mode_active) {
+                snipe_mode_active = true;
                 saved_cpi_idx = cocot_config.cpi_idx;
-                cocot_config.cpi_idx = SNIPE_CPI_IDX;
-                pointing_device_set_cpi(cpi_options[SNIPE_CPI_IDX]);
+                uint16_t snipe_cpi = cpi_options[saved_cpi_idx] / 2;
+                pointing_device_set_cpi(snipe_cpi);
             }
             break;
         case _NAV:
@@ -332,6 +336,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
             hsv.h = 169;  // BLUE - Function
             break;
         case _MEDIA:
+        case _WMEDIA:
             hsv.h = 191;  // PURPLE - Media
             break;
         case _MOUSE:
