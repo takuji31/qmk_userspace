@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "quantum.h"
 #include "os_detection.h"
 #include "cocot38mini.h"
+#include "qmk_settings.h"
 
 #define COCOT_CPI_OPTIONS { 400, 800, 1600 }
 static const uint16_t cpi_options[] = COCOT_CPI_OPTIONS;
@@ -361,3 +362,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 }
 
 #endif
+
+// Set default tap-hold settings on EEPROM reset
+void eeconfig_init_user(void) {
+    QS.flow_tap_term = FLOW_TAP_TERM;
+    // Enable Permissive Hold (bit 0) and Chordal Hold (bit 3)
+    QS.tapping_v2 |= (1 << 0) | (1 << 3);
+}
