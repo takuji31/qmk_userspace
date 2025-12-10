@@ -160,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
         XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,  QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
     // Windows layers
@@ -197,7 +197,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_WMEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
         XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,  QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
 };
