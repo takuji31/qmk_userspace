@@ -123,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Q,   KC_W,   KC_F,      KC_P,     KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
         WHRM_A, HRM_R,  WHRM_S,    HRM_T,    KC_D,                      KC_H,    HRM_N,   WHRM_E,  HRM_I,   WHRM_O,
         KC_Z,   KC_X,   KC_C,      KC_V,     KC_B,                      KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC,  MS_BTN1, KC_BSPC, WFN_ENT, KC_LNG1
+                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC, TG(_WNAV), KC_BSPC, WFN_ENT, KC_LNG1
     ),
     [_MOUSE] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -364,9 +364,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     RGB rgb = hsv_to_rgb(hsv);
 
     for (uint8_t i = led_min; i <= led_max; i++) {
-        if (HAS_FLAGS(g_led_config.flags[i], 0x02)) {
-            rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
-        }
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
     }
     return false;
 }
