@@ -96,14 +96,14 @@ enum layer_number {
 #define M_CUT   G(KC_X)
 #define M_COPY  G(KC_C)
 #define M_PASTE G(KC_V)
-#define M_PSTM  S(G(KC_V))  // Paste and match style
+#define M_PSTM  S(G(KC_V))
 
 // Shortcuts for NAV layer - Windows
 #define W_UNDO  C(KC_Z)
 #define W_CUT   C(KC_X)
 #define W_COPY  C(KC_C)
 #define W_PASTE C(KC_V)
-#define W_PSTM  C(KC_V)  // Windows doesn't have paste match style
+#define W_PSTM  S(C(KC_V))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
