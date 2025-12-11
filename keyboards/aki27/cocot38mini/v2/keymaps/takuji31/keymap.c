@@ -66,12 +66,8 @@ enum layer_number {
 
 // Home Row Mods - Windows (GACS)
 #define WHRM_A LGUI_T(KC_A)
-#define WHRM_R LALT_T(KC_R)
 #define WHRM_S LCTL_T(KC_S)
-#define WHRM_T LSFT_T(KC_T)
-#define WHRM_N RSFT_T(KC_N)
 #define WHRM_E RCTL_T(KC_E)
-#define WHRM_I LALT_T(KC_I)
 #define WHRM_O RGUI_T(KC_O)
 
 // SYM layer Home Row Mods - macOS
@@ -81,9 +77,7 @@ enum layer_number {
 #define SYM_QUOT RCTL_T(KC_QUOT)
 
 // SYM layer Home Row Mods - Windows
-#define WSYM_LPRN RSFT_T(KC_LPRN)
 #define WSYM_RPRN RCTL_T(KC_RPRN)
-#define WSYM_SCLN LALT_T(KC_SCLN)
 #define WSYM_QUOT RGUI_T(KC_QUOT)
 
 // Thumb keys - macOS
@@ -121,7 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_WBASE] = LAYOUT(
         KC_Q,   KC_W,   KC_F,      KC_P,     KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
-        WHRM_A, WHRM_R, WHRM_S,    WHRM_T,   KC_D,                      KC_H,    WHRM_N,  WHRM_E,  WHRM_I,  WHRM_O,
+        WHRM_A, HRM_R,  WHRM_S,    HRM_T,    KC_D,                      KC_H,    HRM_N,   WHRM_E,  HRM_I,   WHRM_O,
         KC_Z,   KC_X,   KC_C,      KC_V,     KC_B,                      KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
                         WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC,  MS_BTN1, KC_BSPC, WFN_ENT, KC_LNG1
     ),
@@ -183,7 +177,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_WSYM] = LAYOUT(
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
-        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_DQUO, WSYM_LPRN, WSYM_RPRN, WSYM_SCLN, WSYM_QUOT,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_DQUO, SYM_LPRN, WSYM_RPRN, SYM_SCLN, WSYM_QUOT,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_COLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
