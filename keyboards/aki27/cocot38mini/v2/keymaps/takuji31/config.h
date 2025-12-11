@@ -19,3 +19,5 @@
 
 #define COCOT_CPI_OPTIONS { 400, 800, 1600 }
 #define COCOT_CPI_DEFAULT 2
+#define COCOT_SCROLL_DIVIDERS { 1, 2, 3, 4, 5, 6 }
+#define COCOT_ROTATION_ANGLE { -90, -75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75, 90 }

@@ -22,7 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "cocot38mini.h"
 #include "qmk_settings.h"
 
+enum user_keycodes {
+    CFG_INFO = AM_TOG + 1,
+};
+
 static const uint16_t cpi_options[] = COCOT_CPI_OPTIONS;
+static const uint16_t scrl_div_options[] = COCOT_SCROLL_DIVIDERS;
+static const int16_t angle_options[] = COCOT_ROTATION_ANGLE;
 
 static uint8_t saved_cpi_idx = 1;
 static bool snipe_mode_active = false;
@@ -165,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
         XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, CPI_SW,  EE_CLR,  QK_BOOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   CFG_INFO, SCRL_SW, CPI_SW,  EE_CLR,  QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
     // Windows layers
@@ -202,7 +208,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_WMEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
         XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, CPI_SW,  EE_CLR,  QK_BOOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   CFG_INFO, SCRL_SW, CPI_SW,  EE_CLR,  QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
 };
@@ -374,4 +380,26 @@ void eeconfig_init_user(void) {
     qmk_settings_set(27, &flow_tap, sizeof(flow_tap));  // flow_tap_term
     qmk_settings_set(22, &enabled, sizeof(enabled));    // permissive_hold
     qmk_settings_set(26, &enabled, sizeof(enabled));    // chordal_hold
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case CFG_INFO:
+            if (record->event.pressed) {
+                tap_code(KC_LNG2);
+                char buf[100];
+                snprintf(buf, sizeof(buf),
+                    "CPI: %u, SCRL_DIV: %u, ANGLE: %d, INV: %s, AUTO: %s, SCRL: %s",
+                    cpi_options[cocot_config.cpi_idx],
+                    scrl_div_options[cocot_config.scrl_div],
+                    angle_options[cocot_config.rotation_angle],
+                    cocot_config.scrl_inv ? "ON" : "OFF",
+                    cocot_config.auto_mouse ? "ON" : "OFF",
+                    cocot_config.scrl_mode ? "ON" : "OFF"
+                );
+                send_string(buf);
+            }
+            return false;
+    }
+    return true;
 }
