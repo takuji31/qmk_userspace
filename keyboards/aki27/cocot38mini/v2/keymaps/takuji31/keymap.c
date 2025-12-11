@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "cocot38mini.h"
 #include "qmk_settings.h"
 
-#define COCOT_CPI_OPTIONS { 400, 800, 1600 }
 static const uint16_t cpi_options[] = COCOT_CPI_OPTIONS;
 
 static uint8_t saved_cpi_idx = 1;
@@ -115,16 +114,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                         WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC,  MS_BTN1, KC_BSPC, WFN_ENT, KC_LNG1
     ),
     [_MOUSE] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1,                   MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, MS_BTN1, SCRL_MO, XXXXXXX
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, MO(_SNIPE), SCRL_MO, XXXXXXX
     ),
     [_SNIPE] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1,                   MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, MS_BTN1, SCRL_MO, XXXXXXX
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, _______, SCRL_MO, XXXXXXX
     ),
     // macOS layers
     [_NAV] = LAYOUT(
@@ -258,7 +257,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     if (layer != _SNIPE && snipe_mode_active) {
         snipe_mode_active = false;
-        cocot_config.cpi_idx = saved_cpi_idx;
         pointing_device_set_cpi(cpi_options[saved_cpi_idx]);
     }
 
@@ -365,7 +363,9 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
 // Set default tap-hold settings on EEPROM reset
 void eeconfig_init_user(void) {
-    QS.flow_tap_term = FLOW_TAP_TERM;
-    // Enable Permissive Hold (bit 0) and Chordal Hold (bit 3)
-    QS.tapping_v2 |= (1 << 0) | (1 << 3);
+    uint16_t flow_tap = FLOW_TAP_TERM;
+    uint8_t enabled = 1;
+    qmk_settings_set(27, &flow_tap, sizeof(flow_tap));  // flow_tap_term
+    qmk_settings_set(22, &enabled, sizeof(enabled));    // permissive_hold
+    qmk_settings_set(26, &enabled, sizeof(enabled));    // chordal_hold
 }
