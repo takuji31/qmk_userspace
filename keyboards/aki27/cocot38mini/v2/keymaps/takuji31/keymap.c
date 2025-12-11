@@ -74,6 +74,18 @@ enum layer_number {
 #define WHRM_I LALT_T(KC_I)
 #define WHRM_O RGUI_T(KC_O)
 
+// SYM layer Home Row Mods - macOS
+#define SYM_LPRN RSFT_T(KC_LPRN)
+#define SYM_RPRN LGUI_T(KC_RPRN)
+#define SYM_SCLN LALT_T(KC_SCLN)
+#define SYM_QUOT RCTL_T(KC_QUOT)
+
+// SYM layer Home Row Mods - Windows
+#define WSYM_LPRN RSFT_T(KC_LPRN)
+#define WSYM_RPRN RCTL_T(KC_RPRN)
+#define WSYM_SCLN LALT_T(KC_SCLN)
+#define WSYM_QUOT RGUI_T(KC_QUOT)
+
 // Thumb keys - macOS
 #define SYM_LNG2 LT(_SYM, KC_LNG2)
 #define NAV_SPC  LT(_NAV, KC_SPC)
@@ -133,10 +145,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, KC_DEL,  _______, _______
     ),
     [_SYM] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_EXLM, KC_SCLN, KC_AT,   KC_HASH, KC_GRV,
-        KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_EQL,  KC_LPRN, KC_RPRN, KC_QUOT, KC_PERC,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_ASTR, KC_LBRC, KC_RBRC, KC_AMPR, KC_DLR,
-                          _______, _______, _______, KC_BSLS, _______, _______, _______, _______
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
+        KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_DQUO, SYM_LPRN, SYM_RPRN, SYM_SCLN, SYM_QUOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_COLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
+                          _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_FN] = LAYOUT(
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     _______, _______, _______, _______, _______,
@@ -170,10 +182,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                           _______, _______, _______, _______, _______, KC_DEL,  _______, _______
     ),
     [_WSYM] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_EXLM, KC_SCLN, KC_AT,   KC_HASH, KC_GRV,
-        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_EQL,  KC_LPRN, KC_RPRN, KC_QUOT, KC_PERC,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_ASTR, KC_LBRC, KC_RBRC, KC_AMPR, KC_DLR,
-                          _______, _______, _______, KC_BSLS, _______, _______, _______, _______
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_DQUO, WSYM_LPRN, WSYM_RPRN, WSYM_SCLN, WSYM_QUOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_COLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
+                          _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_WFN] = LAYOUT(
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     _______, _______, _______, _______, _______,
