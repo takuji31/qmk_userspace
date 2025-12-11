@@ -223,24 +223,24 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
-    [_BASE]   = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
-    [_WBASE]  = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
-    [_MOUSE]  = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
-    [_SNIPE]  = { ENCODER_CCW_CW(KC_WH_U, KC_WH_D) },
+    [_BASE]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_WBASE]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_MOUSE]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_SNIPE]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     // macOS layers
-    [_NAV]    = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },
-    [_SYM]    = { ENCODER_CCW_CW(KC_WH_L, KC_WH_R) },
-    [_FN]     = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_NAV]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_SYM]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_FN]     = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_VIAL1]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_VIAL2]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_MEDIA]  = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [_MEDIA]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     // Windows layers
-    [_WNAV]   = { ENCODER_CCW_CW(S(C(KC_TAB)), C(KC_TAB)) },
-    [_WSYM]   = { ENCODER_CCW_CW(KC_WH_L, KC_WH_R) },
-    [_WFN]    = { ENCODER_CCW_CW(KC_PGUP, KC_PGDN) },
+    [_WNAV]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_WSYM]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_WFN]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_VIAL3]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_VIAL4]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_WMEDIA] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+    [_WMEDIA] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
 };
 #endif
 
