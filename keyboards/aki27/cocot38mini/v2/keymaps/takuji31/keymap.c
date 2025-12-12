@@ -76,16 +76,6 @@ enum layer_number {
 #define WHRM_E RCTL_T(KC_E)
 #define WHRM_O RGUI_T(KC_O)
 
-// SYM layer Home Row Mods - macOS
-#define SYM_LPRN RSFT_T(KC_LPRN)
-#define SYM_RPRN LGUI_T(KC_RPRN)
-#define SYM_SCLN LALT_T(KC_SCLN)
-#define SYM_QUOT RCTL_T(KC_QUOT)
-
-// SYM layer Home Row Mods - Windows
-#define WSYM_RPRN RCTL_T(KC_RPRN)
-#define WSYM_QUOT RGUI_T(KC_QUOT)
-
 // Thumb keys - macOS
 #define SYM_LNG2 LT(_SYM, KC_LNG2)
 #define NAV_SPC  LT(_NAV, KC_SPC)
@@ -146,8 +136,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_SYM] = LAYOUT(
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
-        KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_DQUO, SYM_LPRN, SYM_RPRN, SYM_SCLN, SYM_QUOT,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_COLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
+        KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_DQUO, KC_LPRN, KC_RPRN, KC_COLN, KC_QUOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_SCLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_FN] = LAYOUT(
@@ -183,8 +173,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_WSYM] = LAYOUT(
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
-        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_DQUO, SYM_LPRN, WSYM_RPRN, SYM_SCLN, WSYM_QUOT,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_COLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_DQUO, KC_LPRN, KC_RPRN, KC_COLN, KC_QUOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_SCLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
     [_WFN] = LAYOUT(
