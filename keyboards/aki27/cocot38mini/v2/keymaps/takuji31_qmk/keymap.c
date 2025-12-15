@@ -280,8 +280,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
                 pointing_device_set_cpi(snipe_cpi);
             }
             break;
-        case _NAV:
-        case _WNAV:
+        case _SYM:
+        case _WSYM:
         case _FN:
         case _WFN:
             cocot_set_scroll_mode(true);
