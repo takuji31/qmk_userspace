@@ -2,6 +2,7 @@
     "userspace_version": "1.1",
     "build_targets": [
         ["crkbd/rev4_1/standard", "takuji31"],
-        ["keyball/keyball44", "takuji31"]
+        ["keyball/keyball44", "takuji31"],
+        ["aki27/cocot38mini/v2", "takuji31_qmk"]
     ]
 }
