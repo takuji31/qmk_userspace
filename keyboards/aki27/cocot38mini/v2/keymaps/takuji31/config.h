@@ -13,7 +13,6 @@
 
 #define TAPPING_TERM 180
 #define QUICK_TAP_TERM 175
-#define PERMISSIVE_HOLD
 #undef FLOW_TAP_TERM
 #define FLOW_TAP_TERM 150
 

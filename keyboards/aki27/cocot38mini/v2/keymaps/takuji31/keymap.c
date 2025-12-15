@@ -366,7 +366,6 @@ void eeconfig_init_user(void) {
     uint16_t flow_tap = FLOW_TAP_TERM;
     uint8_t enabled = 1;
     qmk_settings_set(27, &flow_tap, sizeof(flow_tap));  // flow_tap_term
-    qmk_settings_set(22, &enabled, sizeof(enabled));    // permissive_hold
     qmk_settings_set(26, &enabled, sizeof(enabled));    // chordal_hold
 }
 
