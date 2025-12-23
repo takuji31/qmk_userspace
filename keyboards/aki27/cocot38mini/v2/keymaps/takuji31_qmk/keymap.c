@@ -112,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Q,   KC_W,   KC_F,      KC_P,     KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
         WHRM_A, HRM_R,  WHRM_S,    HRM_T,    KC_D,                      KC_H,    HRM_N,   WHRM_E,  HRM_I,   WHRM_O,
         KC_Z,   KC_X,   KC_C,      KC_V,     KC_B,                      KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC, TG(_WNAV), KC_BSPC, WFN_ENT, KC_LNG1
+                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC, MS_BTN1, KC_BSPC, WFN_ENT, KC_LNG1
     ),
     [_MOUSE] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -196,7 +196,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_WMEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, TG(_WNAV),                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   CFG_INFO, SCRL_SW, CPI_SW,  EE_CLR,  QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
