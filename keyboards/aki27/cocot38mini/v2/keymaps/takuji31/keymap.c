@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "quantum.h"
 #include "os_detection.h"
 #include "cocot38mini.h"
-#include "qmk_settings.h"
 
 enum user_keycodes {
     CFG_INFO = AM_TOG + 1,
@@ -43,15 +42,15 @@ enum layer_number {
     _NAV,
     _SYM,
     _FN,
+    _SYS,
     _VIAL1,
-    _VIAL2,
     _MEDIA,
     // Windows layers
     _WNAV,
     _WSYM,
     _WFN,
+    _WSYS,
     _VIAL3,
-    _VIAL4,
     _WMEDIA,
 };
 
@@ -81,11 +80,13 @@ enum layer_number {
 #define NAV_SPC  LT(_NAV, KC_SPC)
 #define SFT_TAB  MT(MOD_LSFT, KC_TAB)
 #define FN_ENT   LT(_FN, KC_ENT)
+#define SYS_LNG1 LT(_SYS, KC_LNG1)
 
 // Thumb keys - Windows
 #define WSYM_LNG2 LT(_WSYM, KC_LNG2)
 #define WNAV_SPC  LT(_WNAV, KC_SPC)
 #define WFN_ENT   LT(_WFN, KC_ENT)
+#define WSYS_LNG1 LT(_WSYS, KC_LNG1)
 
 // Shortcuts for NAV layer - macOS
 #define M_UNDO  G(KC_Z)
@@ -107,25 +108,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Q,  KC_W,  KC_F,     KC_P,    KC_G,                      KC_J,    KC_L,   KC_U,    KC_Y,    KC_MINS,
         HRM_A, HRM_R, HRM_S,    HRM_T,   KC_D,                      KC_H,    HRM_N,  HRM_E,   HRM_I,   HRM_O,
         KC_Z,  KC_X,  KC_C,     KC_V,    KC_B,                      KC_K,    KC_M,   KC_COMM, KC_DOT,  KC_SLSH,
-                      SYM_LNG2, NAV_SPC, SFT_TAB, KC_ESC,  MS_BTN1, KC_BSPC, FN_ENT, KC_LNG1
+                      SYM_LNG2, NAV_SPC, SFT_TAB, KC_ESC,  MS_BTN1, KC_BSPC, FN_ENT, SYS_LNG1
     ),
     [_WBASE] = LAYOUT(
         KC_Q,   KC_W,   KC_F,      KC_P,     KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
         WHRM_A, HRM_R,  WHRM_S,    HRM_T,    KC_D,                      KC_H,    HRM_N,   WHRM_E,  HRM_I,   WHRM_O,
         KC_Z,   KC_X,   KC_C,      KC_V,     KC_B,                      KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC, TG(_WNAV), KC_BSPC, WFN_ENT, KC_LNG1
+                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC, MS_BTN1, KC_BSPC, WFN_ENT, WSYS_LNG1
     ),
     [_MOUSE] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, MO(_SNIPE), XXXXXXX, MS_BTN1, MS_BTN1, SCRL_MO, XXXXXXX
+                          XXXXXXX, XXXXXXX, MO(_SNIPE), XXXXXXX, _______, MS_BTN1, SCRL_MO, XXXXXXX
     ),
     [_SNIPE] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, _______, XXXXXXX, MS_BTN1, MS_BTN1, SCRL_MO, XXXXXXX
+                          XXXXXXX, XXXXXXX, _______, XXXXXXX, _______, MS_BTN1, SCRL_MO, XXXXXXX
     ),
     // macOS layers
     [_NAV] = LAYOUT(
@@ -146,13 +147,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F11,  KC_F12,  _______, _______, _______,                   _______, _______, _______, _______, _______,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
-    [_VIAL1] = LAYOUT(
+    [_SYS] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(_NAV),                  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
     ),
-    [_VIAL2] = LAYOUT(
+    [_VIAL1] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -160,7 +161,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_MEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   AM_TOG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   CFG_INFO, SCRL_SW, CPI_SW,  EE_CLR,  QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -183,13 +184,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F11,  KC_F12,  _______, _______, _______,                   _______, _______, _______, _______, _______,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
-    [_VIAL3] = LAYOUT(
+    [_WSYS] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(_WNAV),                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
     ),
-    [_VIAL4] = LAYOUT(
+    [_VIAL3] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -197,7 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_WMEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   AM_TOG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   CFG_INFO, SCRL_SW, CPI_SW,  EE_CLR,  QK_BOOT,
                           _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -221,15 +222,15 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_NAV]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_SYM]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_FN]     = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_SYS]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_VIAL1]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL2]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_MEDIA]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     // Windows layers
     [_WNAV]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_WSYM]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_WFN]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_WSYS]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_VIAL3]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL4]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_WMEDIA] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
 };
 #endif
@@ -281,8 +282,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
                 pointing_device_set_cpi(snipe_cpi);
             }
             break;
-        case _NAV:
-        case _WNAV:
+        case _SYM:
+        case _WSYM:
         case _FN:
         case _WFN:
             cocot_set_scroll_mode(true);
@@ -336,6 +337,10 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         case _WFN:
             hsv.h = 169;  // BLUE - Function
             break;
+        case _SYS:
+        case _WSYS:
+            hsv.h = 213;  // PINK - System
+            break;
         case _MEDIA:
         case _WMEDIA:
             hsv.h = 191;  // PURPLE - Media
@@ -361,14 +366,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
 #endif
 
-// Set default tap-hold settings on EEPROM reset
-void eeconfig_init_user(void) {
-    uint16_t flow_tap = FLOW_TAP_TERM;
-    uint8_t enabled = 1;
-    qmk_settings_set(27, &flow_tap, sizeof(flow_tap));  // flow_tap_term
-    qmk_settings_set(26, &enabled, sizeof(enabled));    // chordal_hold
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case CFG_INFO:
@@ -389,4 +386,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
     return true;
+}
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case HRM_A:
+        case HRM_R:
+        case HRM_S:
+        case HRM_T:
+        case HRM_N:
+        case HRM_E:
+        case HRM_I:
+        case HRM_O:
+        case WHRM_A:
+        case WHRM_S:
+        case WHRM_E:
+        case WHRM_O:
+            return 280;
+        default:
+            return TAPPING_TERM;
+    }
 }
