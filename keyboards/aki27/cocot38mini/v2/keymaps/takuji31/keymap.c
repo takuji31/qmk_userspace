@@ -54,11 +54,6 @@ enum layer_number {
     _WMEDIA,
 };
 
-// Mouse button shortcuts
-#define MS_BTN1 KC_MS_BTN1
-#define MS_BTN2 KC_MS_BTN2
-#define MS_BTN3 KC_MS_BTN3
-
 // Home Row Mods - macOS (CAGS)
 #define HRM_A LCTL_T(KC_A)
 #define HRM_R LALT_T(KC_R)

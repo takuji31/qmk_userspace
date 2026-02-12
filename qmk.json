@@ -3,7 +3,7 @@
     "build_targets": [
         ["crkbd/rev4_1/standard", "takuji31"],
         ["keyball/keyball44", "takuji31"],
-        ["aki27/cocot38mini/v2", "takuji31_qmk"],
+        ["aki27/cocot38mini/v2", "takuji31"],
         ["salicylic_acid3/o51go", "takuji31"]
 
     ]
