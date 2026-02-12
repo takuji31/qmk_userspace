@@ -5,6 +5,7 @@ enum layer_number {
     _BASE = 0,
     _MOUSE,
     _NAV,
+    _NUM,
     _SYM,
     _FN,
     _SYS,
@@ -57,6 +58,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______, _______, KC_DEL,  _______,           _______
     ),
 
+    [_NUM] = LAYOUT_right_ball(
+        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______,           _______
+    ),
+
     [_SYM] = LAYOUT_right_ball(
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,       KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
         KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,       KC_DQUO, KC_LPRN, KC_RPRN, KC_COLN, KC_QUOT,
@@ -106,30 +114,27 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
     switch (layer) {
         case _BASE:
-            set_auto_mouse_enable(true);
             rgblight_sethsv(HSV_CYAN);
             break;
         case _MOUSE:
             rgblight_sethsv(HSV_RED);
             break;
         case _NAV:
-            set_auto_mouse_enable(false);
             rgblight_sethsv(HSV_GREEN);
             break;
+        case _NUM:
+            rgblight_sethsv(HSV_CORAL);
+            break;
         case _SYM:
-            set_auto_mouse_enable(false);
             rgblight_sethsv(HSV_YELLOW);
             break;
         case _FN:
-            set_auto_mouse_enable(false);
             rgblight_sethsv(HSV_BLUE);
             break;
         case _SYS:
-            set_auto_mouse_enable(false);
             rgblight_sethsv(HSV_PURPLE);
             break;
         default:
-            set_auto_mouse_enable(false);
             rgblight_sethsv(HSV_CORAL);
             break;
     }
