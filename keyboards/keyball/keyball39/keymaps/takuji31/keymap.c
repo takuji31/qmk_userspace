@@ -26,7 +26,7 @@ enum layer_number {
 #define NAV_SPC  LT(_NAV, KC_SPC)
 #define SFT_TAB  MT(MOD_LSFT, KC_TAB)
 #define FN_ENT   LT(_FN, KC_ENT)
-#define SYS_LNG1 LT(_SYS, KC_LNG1)
+
 
 // Shortcuts for NAV layer - Windows
 #define W_UNDO  C(KC_Z)
@@ -41,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,          KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
         HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_D,          KC_H,    HRM_N,   HRM_E,   HRM_I,   HRM_O,
         KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,          KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-        KC_LNG2, XXXXXXX, XXXXXXX, SYM_ESC, NAV_SPC, SFT_TAB, KC_BSPC, FN_ENT,           SYS_LNG1
+        KC_LNG2, KC_LGUI, KC_LNG1, SYM_ESC, NAV_SPC, SFT_TAB, KC_BSPC, FN_ENT,           MO(_SYS)
     ),
 
     [_MOUSE] = LAYOUT_right_ball(
