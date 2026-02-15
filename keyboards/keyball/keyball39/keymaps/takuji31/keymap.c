@@ -25,7 +25,8 @@ enum layer_number {
 #define SYM_ESC  LT(_SYM, KC_ESC)
 #define NAV_SPC  LT(_NAV, KC_SPC)
 #define SFT_TAB  MT(MOD_LSFT, KC_TAB)
-#define FN_ENT   LT(_FN, KC_ENT)
+#define FN_BSPC  LT(_FN, KC_BSPC)
+#define NUM_ENT  LT(_NUM, KC_ENT)
 
 
 // Shortcuts for NAV layer - Windows
@@ -38,52 +39,52 @@ enum layer_number {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_right_ball(
-        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,          KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
-        HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_D,          KC_H,    HRM_N,   HRM_E,   HRM_I,   HRM_O,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,          KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-        KC_LNG2, KC_LGUI, KC_LNG1, SYM_ESC, NAV_SPC, SFT_TAB, KC_BSPC, FN_ENT,           MO(_SYS)
+        KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
+        HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_D,                      KC_H,    HRM_N,   HRM_E,   HRM_I,   HRM_O,
+        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                      KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
+        KC_LNG2, KC_LGUI, KC_LNG1, SYM_ESC, NAV_SPC, SFT_TAB, FN_BSPC, NUM_ENT,                            MO(_SYS)
     ),
 
     [_MOUSE] = LAYOUT_right_ball(
-        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______,       _______, MS_BTN1, MS_BTN3, MS_BTN2, _______,
-        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______,           _______
+        _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,                   _______, MS_BTN1, MS_BTN3, MS_BTN2, _______,
+        _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______, _______,                            _______
     ),
 
     [_NAV] = LAYOUT_right_ball(
-        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,          KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
-        W_UNDO,  W_CUT,   W_COPY,  W_PASTE, W_PSTM,        KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
-        _______, _______, _______, _______, _______, _______, KC_DEL,  _______,           _______
+        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
+        W_UNDO,  W_CUT,   W_COPY,  W_PASTE, W_PSTM,                    KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
+        _______, _______, _______, _______, _______, _______, KC_BSPC, KC_ENT,                             _______
     ),
 
     [_NUM] = LAYOUT_right_ball(
-        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______,       _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______,           _______
+        KC_LBRC, KC_7,    KC_8,    KC_9,    KC_RBRC,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_SCLN, KC_4,    KC_5,    KC_6,    KC_EQL,                    XXXXXXX, KC_RSFT, KC_RCTL, KC_LALT, KC_RGUI,
+        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_BSLS,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        _______, _______, _______, KC_DOT,  KC_0,    KC_TAB,  _______, _______,                            XXXXXXX
     ),
 
     [_SYM] = LAYOUT_right_ball(
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,       KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
-        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,       KC_DQUO, KC_LPRN, KC_RPRN, KC_COLN, KC_QUOT,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,       KC_SCLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
-        _______, _______, _______, _______, _______, _______, _______, _______,           _______
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
+        KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_DQUO, KC_LPRN, KC_RPRN, KC_COLN, KC_QUOT,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_SCLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
+        _______, _______, _______, _______, _______, _______,  KC_DEL, KC_ENT,                             _______
     ),
 
     [_FN] = LAYOUT_right_ball(
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,         _______, _______, _______, _______, _______,
-        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,        _______, KC_RSFT, KC_RCTL, KC_LALT, KC_RGUI,
-        KC_F11,  KC_F12,  _______, _______, _______,       _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______,           _______
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,                    XXXXXXX, KC_RSFT, KC_RCTL, KC_LALT, KC_RGUI,
+        KC_F11,  KC_F12,  XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        _______, _______, _______, KC_ESC,  KC_SPC,  KC_TAB,  _______, _______,                            XXXXXXX
     ),
 
     [_SYS] = LAYOUT_right_ball(
-        KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,       XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, TG(_NAV),      AML_TO,  AML_I50, AML_D50, XXXXXXX, XXXXXXX,
-        SSNP_FRE,SSNP_VRT,SSNP_HOR,XXXXXXX, XXXXXXX,       CPI_D100,SCRL_DVD,SCRL_DVI,CPI_I100,KBC_SAVE,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,  QK_BOOT,          KBC_RST
+        KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                  XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
+        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, TG(_NAV),                 AML_TO,  AML_I50, AML_D50, XXXXXXX, XXXXXXX,
+        SSNP_FRE,SSNP_VRT,SSNP_HOR,XXXXXXX, XXXXXXX,                  CPI_D100,SCRL_DVD,SCRL_DVI,CPI_I100,KBC_SAVE,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR,  QK_BOOT,                           KBC_RST
     ),
 };
 // clang-format on
