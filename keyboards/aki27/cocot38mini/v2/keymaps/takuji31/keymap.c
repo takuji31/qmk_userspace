@@ -40,18 +40,16 @@ enum layer_number {
     _SNIPE,
     // macOS layers
     _NAV,
+    _NUM,
     _SYM,
     _FN,
     _SYS,
-    _VIAL1,
-    _MEDIA,
     // Windows layers
     _WNAV,
+    _WNUM,
     _WSYM,
     _WFN,
     _WSYS,
-    _VIAL3,
-    _WMEDIA,
 };
 
 // Home Row Mods - macOS (CAGS)
@@ -74,13 +72,15 @@ enum layer_number {
 #define SYM_LNG2 LT(_SYM, KC_LNG2)
 #define NAV_SPC  LT(_NAV, KC_SPC)
 #define SFT_TAB  MT(MOD_LSFT, KC_TAB)
-#define FN_ENT   LT(_FN, KC_ENT)
+#define FN_BSPC  LT(_FN, KC_BSPC)
+#define NUM_ENT  LT(_NUM, KC_ENT)
 #define SYS_LNG1 LT(_SYS, KC_LNG1)
 
 // Thumb keys - Windows
 #define WSYM_LNG2 LT(_WSYM, KC_LNG2)
 #define WNAV_SPC  LT(_WNAV, KC_SPC)
-#define WFN_ENT   LT(_WFN, KC_ENT)
+#define WFN_BSPC  LT(_WFN, KC_BSPC)
+#define WNUM_ENT  LT(_WNUM, KC_ENT)
 #define WSYS_LNG1 LT(_WSYS, KC_LNG1)
 
 // Shortcuts for NAV layer - macOS
@@ -103,13 +103,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_Q,  KC_W,  KC_F,     KC_P,    KC_G,                      KC_J,    KC_L,   KC_U,    KC_Y,    KC_MINS,
         HRM_A, HRM_R, HRM_S,    HRM_T,   KC_D,                      KC_H,    HRM_N,  HRM_E,   HRM_I,   HRM_O,
         KC_Z,  KC_X,  KC_C,     KC_V,    KC_B,                      KC_K,    KC_M,   KC_COMM, KC_DOT,  KC_SLSH,
-                      SYM_LNG2, NAV_SPC, SFT_TAB, KC_ESC,  MS_BTN1, KC_BSPC, FN_ENT, SYS_LNG1
+                      SYM_LNG2, NAV_SPC, SFT_TAB, KC_ESC,  MS_BTN1, FN_BSPC, NUM_ENT, SYS_LNG1
     ),
     [_WBASE] = LAYOUT(
         KC_Q,   KC_W,   KC_F,      KC_P,     KC_G,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_MINS,
         WHRM_A, HRM_R,  WHRM_S,    HRM_T,    KC_D,                      KC_H,    HRM_N,   WHRM_E,  HRM_I,   WHRM_O,
         KC_Z,   KC_X,   KC_C,      KC_V,     KC_B,                      KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC, MS_BTN1, KC_BSPC, WFN_ENT, WSYS_LNG1
+                        WSYM_LNG2, WNAV_SPC, SFT_TAB, KC_ESC, MS_BTN1, WFN_BSPC, WNUM_ENT, WSYS_LNG1
     ),
     [_MOUSE] = LAYOUT(
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -128,74 +128,62 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
         KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
         M_UNDO,  M_CUT,   M_COPY,  M_PASTE, M_PSTM,                    KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
-                          _______, _______, _______, _______, _______, KC_DEL,  _______, _______
+                          _______, _______, _______, _______, _______, KC_BSPC, KC_ENT,  _______
+    ),
+    [_NUM] = LAYOUT(
+        KC_LBRC, KC_7,    KC_8,    KC_9,    KC_RBRC,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_SCLN, KC_4,    KC_5,    KC_6,    KC_EQL,                    XXXXXXX, KC_RSFT, KC_LGUI, KC_LALT, KC_RCTL,
+        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_BSLS,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          KC_DOT,  KC_0,    _______, _______, _______, _______, _______, _______
     ),
     [_SYM] = LAYOUT(
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
         KC_LCTL, KC_LALT, KC_LGUI, KC_LSFT, XXXXXXX,                   KC_DQUO, KC_LPRN, KC_RPRN, KC_COLN, KC_QUOT,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_SCLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
-                          _______, _______, _______, _______, _______, _______, _______, _______
+                          _______, _______, _______, _______, _______, KC_DEL,  KC_ENT,  _______
     ),
     [_FN] = LAYOUT(
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     _______, _______, _______, _______, _______,
         KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,                    _______, KC_RSFT, KC_LGUI, KC_LALT, KC_RCTL,
         KC_F11,  KC_F12,  _______, _______, _______,                   _______, _______, _______, _______, _______,
-                          _______, _______, _______, _______, _______, _______, _______, _______
+                          _______, KC_SPC,  KC_TAB,  _______, _______, _______, _______, _______
     ),
     [_SYS] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(_NAV),                  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
-    ),
-    [_VIAL1] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-    ),
-    [_MEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   AM_TOG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, TG(_NAV),                  AM_TOG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   CFG_INFO, SCRL_SW, CPI_SW,  EE_CLR,  QK_BOOT,
-                          _______, _______, _______, _______, _______, _______, _______, _______
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
     ),
     // Windows layers
     [_WNAV] = LAYOUT(
         KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
         KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX,
         W_UNDO,  W_CUT,   W_COPY,  W_PASTE, W_PSTM,                    KC_HOME, KC_PGDN, KC_PGUP, KC_END,  XXXXXXX,
-                          _______, _______, _______, _______, _______, KC_DEL,  _______, _______
+                          _______, _______, _______, _______, _______, KC_BSPC, KC_ENT,  _______
+    ),
+    [_WNUM] = LAYOUT(
+        KC_LBRC, KC_7,    KC_8,    KC_9,    KC_RBRC,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_SCLN, KC_4,    KC_5,    KC_6,    KC_EQL,                    XXXXXXX, KC_RSFT, KC_RCTL, KC_LALT, KC_RGUI,
+        KC_GRV,  KC_1,    KC_2,    KC_3,    KC_BSLS,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                          KC_DOT,  KC_0,    _______, _______, _______, _______, _______, _______
     ),
     [_WSYM] = LAYOUT(
         KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_PLUS, KC_EQL,
         KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                   KC_DQUO, KC_LPRN, KC_RPRN, KC_COLN, KC_QUOT,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   KC_SCLN, KC_LBRC, KC_RBRC, KC_GRV,  KC_BSLS,
-                          _______, _______, _______, _______, _______, _______, _______, _______
+                          _______, _______, _______, _______, _______, KC_DEL,  KC_ENT,  _______
     ),
     [_WFN] = LAYOUT(
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     _______, _______, _______, _______, _______,
         KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,                    _______, KC_RSFT, KC_RCTL, KC_LALT, KC_RGUI,
         KC_F11,  KC_F12,  _______, _______, _______,                   _______, _______, _______, _______, _______,
-                          _______, _______, _______, _______, _______, _______, _______, _______
+                          _______, KC_SPC,  KC_TAB,  _______, _______, _______, _______, _______
     ),
     [_WSYS] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(_WNAV),                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
-    ),
-    [_VIAL3] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-    ),
-    [_WMEDIA] = LAYOUT(
         KC_BRID, KC_BRIU, KC_MPRV, KC_MPLY, KC_MNXT,                   XXXXXXX, XXXXXXX, KC_MUTE, KC_VOLD, KC_VOLU,
-        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, XXXXXXX,                   AM_TOG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX, XXXXXXX, KC_PSCR, XXXXXXX, TG(_WNAV),                 AM_TOG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                   CFG_INFO, SCRL_SW, CPI_SW,  EE_CLR,  QK_BOOT,
-                          _______, _______, _______, _______, _______, _______, _______, _______
+                          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
     ),
 };
 
@@ -215,18 +203,16 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [_SNIPE]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     // macOS layers
     [_NAV]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_NUM]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_SYM]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_FN]     = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_SYS]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL1]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_MEDIA]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     // Windows layers
     [_WNAV]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
+    [_WNUM]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_WSYM]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_WFN]    = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
     [_WSYS]   = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_VIAL3]  = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
-    [_WMEDIA] = { ENCODER_CCW_CW(XXXXXXX, XXXXXXX) },
 };
 #endif
 
@@ -247,10 +233,6 @@ bool is_mouse_record_kb(uint16_t keycode, keyrecord_t* record) {
 
 // Layer state management
 layer_state_t layer_state_set_user(layer_state_t state) {
-    // Tri-layer
-    state = update_tri_layer_state(state, _NAV, _FN, _MEDIA);
-    state = update_tri_layer_state(state, _WNAV, _WFN, _WMEDIA);
-
     uint8_t layer = get_highest_layer(state);
 
     if (layer != _SNIPE && snipe_mode_active) {
@@ -282,6 +264,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         case _FN:
         case _WFN:
             cocot_set_scroll_mode(true);
+            set_auto_mouse_enable(false);
+            break;
+        case _NUM:
+        case _WNUM:
+            cocot_set_scroll_mode(false);
             set_auto_mouse_enable(false);
             break;
         default:
@@ -336,9 +323,9 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         case _WSYS:
             hsv.h = 213;  // PINK - System
             break;
-        case _MEDIA:
-        case _WMEDIA:
-            hsv.h = 191;  // PURPLE - Media
+        case _NUM:
+        case _WNUM:
+            hsv.h = 11;   // CORAL - Number
             break;
         case _MOUSE:
             hsv.h = 0;    // RED - Mouse
