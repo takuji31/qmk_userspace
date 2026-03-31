@@ -3,6 +3,7 @@
     "build_targets": [
         ["aki27/cocot38mini/v2", "takuji31"],
         ["aki27/cocot46plus", "vial"],
-        ["geek_rabb1t/futaba", "takuji31"]
+        ["geek_rabb1t/futaba", "takuji31"],
+        ["omni_kbd/omni_cs", "takuji31"]
     ]
 }
