@@ -298,170 +298,50 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
 
 #ifdef RGB_MATRIX_ENABLE
 
-// Key category for per-key LED coloring
-typedef enum {
-    KC_CAT_OFF,
-    KC_CAT_LAYER,
-    KC_CAT_TARGET_LAYER,
-    KC_CAT_ARROW,
-    KC_CAT_PAGE,
-    KC_CAT_MEDIA,
-    KC_CAT_FKEY,
-    KC_CAT_EDIT,
-} key_category_t;
-
-static HSV layer_to_hsv(uint8_t layer) {
-    switch (layer) {
-        case _BASE: case _WBASE:  return (HSV){128, 255, 255};  // CYAN
-        case _NAV:  case _WNAV:   return (HSV){85,  255, 255};  // GREEN
-        case _SYM:  case _WSYM:   return (HSV){43,  255, 255};  // YELLOW
-        case _FN:   case _WFN:    return (HSV){169, 255, 255};  // BLUE
-        case _SYS:  case _WSYS:   return (HSV){213, 255, 255};  // MAGENTA
-        case _NUM:  case _WNUM:   return (HSV){11,  255, 255};  // CORAL
-        case _MOUSE:              return (HSV){0,   255, 255};  // RED
-        case _SNIPE:              return (HSV){21,  255, 255};  // ORANGE
-        default:                  return (HSV){128, 255, 255};  // CYAN
-    }
-}
-
-static key_category_t categorize_keycode(uint16_t keycode, uint8_t layer) {
-    if (keycode == KC_NO) return KC_CAT_OFF;
-    if (keycode == KC_TRNS) return KC_CAT_LAYER;
-
-    // Standalone modifiers -> off on non-base layers
-    if (keycode >= KC_LCTL && keycode <= KC_RGUI) {
-        if (layer != _BASE && layer != _WBASE) {
-            return KC_CAT_OFF;
-        }
-        return KC_CAT_LAYER;
-    }
-
-    // Numbers on NAV layers -> off
-    if (keycode >= KC_1 && keycode <= KC_0) {
-        if (layer == _NAV || layer == _WNAV) {
-            return KC_CAT_OFF;
-        }
-        return KC_CAT_LAYER;
-    }
-
-    // LT(), TG(), MO() -> target layer color
-    if ((keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX) ||
-        (keycode >= QK_MOMENTARY && keycode <= QK_MOMENTARY_MAX) ||
-        (keycode >= QK_TOGGLE_LAYER && keycode <= QK_TOGGLE_LAYER_MAX)) {
-        return KC_CAT_TARGET_LAYER;
-    }
-
-    // F1-F12
-    if (keycode >= KC_F1 && keycode <= KC_F12) return KC_CAT_FKEY;
-
-    // Arrow keys
-    switch (keycode) {
-        case KC_LEFT: case KC_DOWN: case KC_UP: case KC_RGHT:
-            return KC_CAT_ARROW;
-    }
-
-    // Page navigation
-    switch (keycode) {
-        case KC_HOME: case KC_END: case KC_PGDN: case KC_PGUP:
-            return KC_CAT_PAGE;
-    }
-
-    // Media/Volume/Brightness
-    switch (keycode) {
-        case KC_MUTE: case KC_VOLD: case KC_VOLU:
-        case KC_MPRV: case KC_MPLY: case KC_MNXT:
-        case KC_BRID: case KC_BRIU:
-            return KC_CAT_MEDIA;
-    }
-
-    // Edit operations (macOS: G(), Windows: C())
-    switch (keycode) {
-        case G(KC_Z): case G(KC_X): case G(KC_C): case G(KC_V): case S(G(KC_V)):
-        case C(KC_Z): case C(KC_X): case C(KC_C): case C(KC_V): case S(C(KC_V)):
-            return KC_CAT_EDIT;
-    }
-
-    return KC_CAT_LAYER;
-}
-
-static uint8_t get_target_layer(uint16_t keycode) {
-    if (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX) {
-        return QK_LAYER_TAP_GET_LAYER(keycode);
-    }
-    if (keycode >= QK_MOMENTARY && keycode <= QK_MOMENTARY_MAX) {
-        return QK_MOMENTARY_GET_LAYER(keycode);
-    }
-    if (keycode >= QK_TOGGLE_LAYER && keycode <= QK_TOGGLE_LAYER_MAX) {
-        return QK_TOGGLE_LAYER_GET_LAYER(keycode);
-    }
-    return 0;
-}
-
-static HSV make_hsv(uint8_t h, uint8_t s, uint8_t v) {
-    HSV hsv = {h, s, v};
-    return hsv;
-}
-
-static HSV make_hsv_val(uint8_t h, uint8_t s, uint8_t v, uint8_t val) {
-    HSV hsv = {h, s, val};
-    (void)v; // original v from constant is overridden by val
-    return hsv;
-}
-
-static HSV get_category_hsv(key_category_t cat, HSV layer_hsv, uint8_t val, uint16_t keycode) {
-    switch (cat) {
-        case KC_CAT_OFF:
-            return make_hsv(HSV_BLACK);
-        case KC_CAT_TARGET_LAYER: {
-            HSV target = layer_to_hsv(get_target_layer(keycode));
-            target.v = val;
-            return target;
-        }
-        case KC_CAT_ARROW:
-            return make_hsv_val(HSV_WHITE, val);
-        case KC_CAT_PAGE:
-            return make_hsv_val(HSV_YELLOW, val);
-        case KC_CAT_MEDIA:
-            return make_hsv_val(HSV_GOLD, val);
-        case KC_CAT_FKEY:
-            return make_hsv_val(HSV_PURPLE, val);
-        case KC_CAT_EDIT:
-            return make_hsv_val(HSV_PINK, val);
-        default:
-            return make_hsv(layer_hsv.h, layer_hsv.s, val);
-    }
-}
-
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    uint8_t layer = get_highest_layer(layer_state | default_layer_state);
-    uint8_t val = rgblight_get_val();
-    HSV layer_hsv = layer_to_hsv(layer);
+    int is_layer = get_highest_layer(layer_state | default_layer_state);
+    HSV hsv = {0, 255, rgblight_get_val()};
 
-    // Set all LEDs to layer color first (covers underglow)
-    RGB layer_rgb = hsv_to_rgb((HSV){layer_hsv.h, layer_hsv.s, val});
-    for (uint8_t i = led_min; i <= led_max; i++) {
-        rgb_matrix_set_color(i, layer_rgb.r, layer_rgb.g, layer_rgb.b);
+    switch (is_layer) {
+        case _BASE:
+        case _WBASE:
+            hsv.h = 128;  // CYAN - Base layer
+            break;
+        case _NAV:
+        case _WNAV:
+            hsv.h = 85;   // GREEN - Navigation
+            break;
+        case _SYM:
+        case _WSYM:
+            hsv.h = 43;   // YELLOW - Symbols
+            break;
+        case _FN:
+        case _WFN:
+            hsv.h = 169;  // BLUE - Function
+            break;
+        case _SYS:
+        case _WSYS:
+            hsv.h = 213;  // PINK - System
+            break;
+        case _NUM:
+        case _WNUM:
+            hsv.h = 11;   // CORAL - Number
+            break;
+        case _MOUSE:
+            hsv.h = 0;    // RED - Mouse
+            break;
+        case _SNIPE:
+            hsv.h = 21;   // ORANGE - Snipe
+            break;
+        default:
+            hsv.h = 128;  // CYAN - Default
+            break;
     }
 
-    // Override per-key colors
-    for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
-        for (uint8_t col = 0; col < MATRIX_COLS; col++) {
-            uint8_t led_index = g_led_config.matrix_co[row][col];
-            if (led_index == NO_LED || led_index < led_min || led_index > led_max) {
-                continue;
-            }
+    RGB rgb = hsv_to_rgb(hsv);
 
-            uint16_t keycode = keymap_key_to_keycode(layer, (keypos_t){.col = col, .row = row});
-            key_category_t cat = categorize_keycode(keycode, layer);
-
-            if (cat == KC_CAT_OFF) {
-                rgb_matrix_set_color(led_index, 0, 0, 0);
-            } else if (cat != KC_CAT_LAYER) {
-                HSV hsv = get_category_hsv(cat, layer_hsv, val, keycode);
-                RGB rgb = hsv_to_rgb(hsv);
-                rgb_matrix_set_color(led_index, rgb.r, rgb.g, rgb.b);
-            }
-        }
+    for (uint8_t i = led_min; i <= led_max; i++) {
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
     }
     return false;
 }
