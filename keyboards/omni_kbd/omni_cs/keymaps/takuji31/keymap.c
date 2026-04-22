@@ -53,8 +53,7 @@ enum layer_number {
 #define CUST_SPC  LT(_CUSTOM, KC_SPC)
 
 // LANG1/LANG2 mod-tap keys
-#define CTL_LNG2  MT(MOD_LCTL, KC_LNG2)
-#define GUI_LNG2  MT(MOD_LGUI, KC_LNG2)
+#define ALT_LNG2  MT(MOD_LALT, KC_LNG2)
 #define GUI_LNG1  MT(MOD_LGUI, KC_LNG1)
 #define CTL_LNG1  MT(MOD_LCTL, KC_LNG1)
 
@@ -156,7 +155,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT, KC_EQL,
         KC_TAB,  HRM_A,   HRM_R,   HRM_S,   HRM_T,   KC_D,                KC_H,    HRM_N,   HRM_E,   HRM_I,   HRM_O,   KC_MINS,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_SCLN,
-        KC_CAPS, CTL_LNG2, KC_LALT, GUI_LNG1, WSYM_ESC, WLOW_SPC, SFT_TAB, KC_BSPC, WFN_ENT, XXXXXXX,              CUST_SPC,
+        KC_CAPS, KC_LCTL, ALT_LNG2, GUI_LNG1, WSYM_ESC, WLOW_SPC, SFT_TAB, KC_BSPC, WFN_ENT, XXXXXXX,              CUST_SPC,
         MO(_WADJ),
         0x7700, 0x7701, 0x7702, 0x7703, 0x7704, 0x7705,
         0x7706, 0x7707, 0x7708, 0x7709, 0x770A, 0x770B,
@@ -187,7 +186,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,                KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOT, KC_EQL,
         KC_TAB,  MHRM_A,  HRM_R,   MHRM_S,  HRM_T,   KC_D,                KC_H,    HRM_N,   MHRM_E,  HRM_I,   MHRM_O,  KC_MINS,
         KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_SCLN,
-        KC_CAPS, GUI_LNG2, KC_LALT, CTL_LNG1, MSYM_ESC, MLOW_SPC, SFT_TAB, KC_BSPC, MFN_ENT, XXXXXXX,              CUST_SPC,
+        KC_CAPS, KC_LGUI, ALT_LNG2, CTL_LNG1, MSYM_ESC, MLOW_SPC, SFT_TAB, KC_BSPC, MFN_ENT, XXXXXXX,              CUST_SPC,
         MO(_MADJ),
         _______,	_______,	_______,	_______,	_______,	_______,
         _______,	_______,	_______,	_______,	_______,	_______,
@@ -280,7 +279,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_CUSTOM] = LAYOUT(
         KC_hue_bg_UP        , KC_hue_bg_DOWN        , KC_sat_bg_UP        , KC_sat_bg_DOWN        , KC_val_bg_UP         , KC_val_bg_DOWN        ,      KC_DP_TOUCH_KEY, KC_DP_TB_TUNE, KC_DP_SWIPE_GESTURE, KC_DP_KEY_MAT, KC_DP_STAT1, _______,
-        KC_hue_main_color_UP, KC_hue_main_color_DOWN, KC_sat_main_color_UP, KC_sat_main_color_DOWN,  KC_val_main_color_UP, KC_val_main_color_DOWN,      _______, KC_BTN1, KC_BTN3, KC_BTN2, TB_R_MODE_TOGGLE, _______,
+        KC_hue_main_color_UP, KC_hue_main_color_DOWN, KC_sat_main_color_UP, KC_sat_main_color_DOWN,  KC_val_main_color_UP, KC_val_main_color_DOWN,      _______, MS_BTN1, MS_BTN3, MS_BTN2, TB_R_MODE_TOGGLE, _______,
         KC_hue_sub_color_UP , KC_hue_sub_color_DOWN , KC_sat_sub_color_UP , KC_sat_sub_color_DOWN , KC_val_sub_color_UP  , KC_val_sub_color_DOWN ,      _______, _______, _______, _______, _______, _______,
         _______             , _______               , _______             , _______               , _______              , _______               ,      _______, _______, _______, _______, _______,
         _______,
@@ -559,6 +558,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+// Chordal hold layout for home row mods
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
+    'L', 'L', 'L', 'L', 'L', 'L',      'R', 'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L', 'L',      'R', 'R', 'R', 'R', 'R', 'R',
+    'L', 'L', 'L', 'L', 'L', 'L',      'R', 'R', 'R', 'R', 'R', 'R',
+    '*', '*', '*', '*', '*', '*', '*', '*', '*', '*', '*',
+    '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*',
+    '*', '*', '*', '*', '*', '*'
+);
+
 const char* get_layer_name_user(uint8_t layer) {
     switch (layer) {
         case _BASE:   return "BASE";
@@ -604,4 +636,6 @@ bool process_detected_host_os_user(os_variant_t detected_os) {
     }
     return true;
 }
+
+
 
