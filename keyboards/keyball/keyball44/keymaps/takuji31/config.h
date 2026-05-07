@@ -42,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef DYNAMIC_KEYMAP_LAYER_COUNT
 #undef DYNAMIC_KEYMAP_LAYER_COUNT
 #endif
-#define DYNAMIC_KEYMAP_LAYER_COUNT 7
+#define DYNAMIC_KEYMAP_LAYER_COUNT 6
 
 #define TAPPING_TERM 180
 #define TAPPING_TERM_PER_KEY
