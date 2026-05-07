@@ -15,3 +15,13 @@ enum keyball_keymap_layers {
 #define RAISE   LT(LAYER_RAISE,KC_ENT)
 #define TM_ENT  RCTL_T(KC_LNG2)
 #define MO_DEV  MO(LAYER_DEVICE)
+
+// Home Row Mods - Windows (GACS)
+#define HRM_A LGUI_T(KC_A)
+#define HRM_R LALT_T(KC_R)
+#define HRM_S LCTL_T(KC_S)
+#define HRM_T LSFT_T(KC_T)
+#define HRM_N RSFT_T(KC_N)
+#define HRM_E RCTL_T(KC_E)
+#define HRM_I LALT_T(KC_I)
+#define HRM_O RGUI_T(KC_O)

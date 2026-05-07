@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TAP_CODE_DELAY 5
 
+#define LAYER_STATE_8BIT
+
 #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
 
 #ifdef DYNAMIC_KEYMAP_LAYER_COUNT
@@ -43,3 +45,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DYNAMIC_KEYMAP_LAYER_COUNT 7
 
 #define TAPPING_TERM 180
+#define TAPPING_TERM_PER_KEY
+#define QUICK_TAP_TERM 175
+#undef FLOW_TAP_TERM
+#define FLOW_TAP_TERM 150
+#define CHORDAL_HOLD
