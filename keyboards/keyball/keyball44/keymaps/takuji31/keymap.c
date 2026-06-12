@@ -46,10 +46,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [LAYER_SYM] = LAYOUT_right_ball(
-    KC_GRV   , KC_QUOT  , KC_LT    , KC_GT   , KC_DQUO  , KC_DOT   ,                                         KC_AMPR  , _______  , KC_LBRC  , KC_RBRC  , KC_PERC  , _______  ,
-    _______  , KC_EXLM  , KC_MINS  , KC_PLUS , KC_EQL   , KC_HASH  ,                                         KC_PIPE  , KC_COLN  , KC_LPRN  , KC_RPRN  , KC_QUES  , _______  ,
-    _______  , KC_CIRC  , KC_SLSH  , KC_ASTR , KC_BSLS  , _______  ,                                         KC_TILD  , KC_DLR   , KC_LCBR  , KC_RCBR  , KC_AT    , _______  ,
-                          _______  , _______ , _______  , _______  , _______  ,                   _______  , _______  ,                                  _______
+    _______  , KC_EXLM  , KC_AT    , KC_HASH , KC_DLR   , KC_PERC  ,                                         KC_CIRC  , KC_AMPR  , KC_ASTR  , KC_PLUS  , KC_EQL   , _______  ,
+    _______  , KC_LGUI  , KC_LALT  , KC_LCTL , KC_LSFT  , XXXXXXX  ,                                         KC_DQUO  , KC_LPRN  , KC_RPRN  , KC_COLN  , KC_QUOT  , _______  ,
+    _______  , XXXXXXX  , XXXXXXX  , XXXXXXX , XXXXXXX  , XXXXXXX  ,                                         KC_SCLN  , KC_LBRC  , KC_RBRC  , KC_GRV   , KC_BSLS  , _______  ,
+                          _______  , _______ , _______  , _______  , _______  ,                    KC_DEL , _______  ,                                  _______
   ),
 
   [LAYER_MOUSE] = LAYOUT_right_ball(
