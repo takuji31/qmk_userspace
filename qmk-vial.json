@@ -3,6 +3,7 @@
     "build_targets": [
         ["aki27/cocot38mini/v2", "takuji31"],
         ["geek_rabb1t/futaba", "takuji31"],
-        ["omni_kbd/omni_cs", "takuji31"]
+        ["omni_kbd/omni_cs", "takuji31"],
+        ["salicylic_acid3/goforty_ortho", "takuji31"]
     ]
 }
