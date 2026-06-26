@@ -10,4 +10,10 @@
 // cannot increase because of EEPROM size
 #define DYNAMIC_KEYMAP_LAYER_COUNT 9
 #define VIAL_TAP_DANCE_ENTRIES 32
+
 #define TAPPING_TERM 180
+#define QUICK_TAP_TERM 175
+#undef FLOW_TAP_TERM
+#define FLOW_TAP_TERM 150
+#undef CHORDAL_HOLD
+#define CHORDAL_HOLD
