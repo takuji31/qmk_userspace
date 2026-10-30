@@ -13,14 +13,6 @@ jobs:
             qmk_repo: takuji31/qmk_firmware
             qmk_ref: master
             artifact_name: qmk
-    build-bastardkb:
-        name: "Build bastardkb firmware"
-        uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_build.yml@main
-        with:
-            qmk_repo: bastardkb/bastardkb-qmk
-            qmk_ref: bkb-master
-            preparation_command: rm qmk.json && cp qmk-bastardkb.json qmk.json
-            artifact_name: bastardkb
     build-vial:
         name: "Build vial firmware"
         uses: takuji31/.github-qmk/.github/workflows/qmk_userspace_build.yml@main
@@ -35,5 +27,4 @@ jobs:
         if: always() && !cancelled()
         needs:
             - build
-            - build-bastardkb
             - build-vial
