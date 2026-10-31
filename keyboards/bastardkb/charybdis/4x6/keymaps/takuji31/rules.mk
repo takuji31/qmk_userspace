@@ -1,4 +1,0 @@
-VIA_ENABLE = yes
-CONSOLE_ENABLE = yes
-SRC += source.c
-OS_DETECTION_ENABLE = yes
