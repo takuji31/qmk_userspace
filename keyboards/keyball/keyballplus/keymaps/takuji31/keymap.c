@@ -547,9 +547,9 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 }
 
 uint16_t get_flow_tap_term(uint16_t keycode, keyrecord_t *record, uint16_t prev_keycode) {
-    if (is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
-        // takuji31: 文字の直後でも NAV レイヤーに入れるよう、スペースだけ短くする
-        return keycode == NAV_SPC ? 80 : FLOW_TAP_TERM;
+    // takuji31: 文字の直後でも NAV レイヤーに入れるよう、スペースは Flow Tap の対象外にする
+    if (keycode != NAV_SPC && is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
+        return FLOW_TAP_TERM;
     }
     return 0;
 }
